@@ -1,0 +1,7 @@
+package com.tobeto.rentACar.repositories;
+
+import com.tobeto.rentACar.entities.Color;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ColorRepository extends JpaRepository<Color, Integer> {
+}

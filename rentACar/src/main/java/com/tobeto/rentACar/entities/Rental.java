@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
 
-@Table
+@Table(name = "rentals")
 @Entity
 @Getter
 @Setter

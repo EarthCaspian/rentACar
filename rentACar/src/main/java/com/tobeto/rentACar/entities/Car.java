@@ -27,15 +27,15 @@ public class Car {
     @Column(name = "year")
     private int year;
 
-    @Column(name = "dailyPrice")
+    @Column(name = "daily_price")
     private double dailyPrice;
 
     @ManyToOne
-    @JoinColumn(name = "modelId")
+    @JoinColumn(name = "model_id")
     private Model model;
 
     @ManyToOne
-    @JoinColumn(name = "colorId")
+    @JoinColumn(name = "color_id")
     private Color color;
 
     @OneToMany(mappedBy = "car")

@@ -11,10 +11,10 @@ import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
 import java.util.List;
 
 public interface CarService {
-    public List<GetAllCarResponse> getAll();
-    public GetCarByIdResponse getCarById(GetCarByIdRequest request);
-    public void add(AddCarRequest request);
-    public void update(UpdateCarRequest request);
-    public void delete(DeleteCarRequest request);
+    List<GetAllCarResponse> getAll();
+    GetCarByIdResponse getCarById(GetCarByIdRequest request);
+    void add(AddCarRequest request);
+    void update(UpdateCarRequest request);
+    void delete(DeleteCarRequest request);
 
 }

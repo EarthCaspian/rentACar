@@ -1,7 +1,7 @@
 package com.tobeto.rentACar.services.abstracts;
 
-import java.util.List;
+import com.tobeto.rentACar.entities.Brand;
 
 public interface BrandService {
-    public List<String> getAll();
+    public Brand getById(int id);
 }

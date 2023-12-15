@@ -4,4 +4,6 @@ import com.tobeto.rentACar.entities.Color;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ColorRepository extends JpaRepository<Color, Integer> {
+
+	public boolean existsColorByName(String name);
 }

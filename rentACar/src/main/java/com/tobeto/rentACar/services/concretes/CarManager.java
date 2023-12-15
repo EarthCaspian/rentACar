@@ -40,6 +40,11 @@ public class CarManager implements CarService {
     }
 
     @Override
+    public Car getById(int id) {
+        return carRepository.findById(id).orElseThrow();
+    }
+
+    @Override
     public void add(AddCarRequest request) {
         //Business Rule
         if (carRepository.existsCarByPlate(request.getPlate())){
@@ -73,4 +78,11 @@ public class CarManager implements CarService {
         //Delete the car
         carRepository.deleteById(request.getId());
     }
+
+    @Override
+    public boolean existsCarById(int carId) {
+        return carRepository.existsCarById(carId);
+    }
+
+
 }

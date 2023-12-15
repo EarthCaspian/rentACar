@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
 
-@Table(name = "rentals")
+@Table(name = "rental")
 @Entity
 @Getter
 @Setter
@@ -19,30 +19,30 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "startDate")
+    @Column(name = "start_date")
     private LocalDate startDate;
 
-    @Column(name = "endDate")
+    @Column(name = "end_date")
     private LocalDate endDate;
 
-    @Column(name = "returnDate")
+    @Column(name = "return_date")
     private LocalDate returnDate;
 
-    @Column(name = "startKilometer")
+    @Column(name = "start_kilometer")
     private int startKilometer;
 
-    @Column(name = "endKilometer")
+    @Column(name = "end_kilometer")
     private int endKilometer;
 
-    @Column(name = "totalPrice")
+    @Column(name = "total_price")
     private double totalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "carId")
+    @JoinColumn(name = "car_id")
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "rental")

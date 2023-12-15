@@ -19,7 +19,7 @@ public class Model {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "brandId")
+    @JoinColumn(name = "brand_id")
     private Brand brand;
 
     @Column(name = "name")

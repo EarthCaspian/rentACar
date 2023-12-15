@@ -19,10 +19,10 @@ public class Invoice {
     private int id;
 
     @ManyToOne
-    @JoinColumn (name = "rentalId")
+    @JoinColumn (name = "rental_id")
     private Rental rental;
 
-    @Column(name = "createDate")
+    @Column(name = "create_date")
     private LocalDate createDate;
 
 }

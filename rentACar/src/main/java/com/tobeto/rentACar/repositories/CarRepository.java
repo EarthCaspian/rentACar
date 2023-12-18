@@ -34,5 +34,5 @@ public interface CarRepository extends JpaRepository<Car,Integer> {
             "inner join c.color co")
     List<GetCarByIdResponse> getCarById();
 
-
+    boolean existsCarById(int carId);
 }

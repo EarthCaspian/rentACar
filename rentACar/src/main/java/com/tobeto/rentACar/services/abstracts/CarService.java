@@ -13,8 +13,14 @@ import java.util.List;
 public interface CarService {
     List<GetAllCarResponse> getAll();
     GetCarByIdResponse getCarById(GetCarByIdRequest request);
+
+    Car getById(int id);
+
     void add(AddCarRequest request);
     void update(UpdateCarRequest request);
     void delete(DeleteCarRequest request);
+    boolean existsCarById(int carId);
+
+
 
 }

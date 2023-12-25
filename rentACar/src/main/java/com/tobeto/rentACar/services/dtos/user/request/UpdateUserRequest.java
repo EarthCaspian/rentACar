@@ -30,8 +30,7 @@ public class UpdateUserRequest {
 
     @NotBlank
     @Length(max = 40, message = "The email cannot exceed 40 characters!")
-    @Pattern(regexp = "^[\\w\\.-]+@[a-zA-Z\\d\\.-]+\\.[a-zA-Z]{2,}$\n",
-            message = "Only include capital letters, special characters not allowed")
+    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$", message = "Geçerli bir e-posta adresi giriniz.")
     private String email;
 
     @NotNull(message = "Birthdate cannot be null!")

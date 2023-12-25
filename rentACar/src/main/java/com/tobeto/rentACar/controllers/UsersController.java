@@ -3,7 +3,6 @@ package com.tobeto.rentACar.controllers;
 import com.tobeto.rentACar.services.abstracts.UserService;
 import com.tobeto.rentACar.services.dtos.user.request.AddUserRequest;
 import com.tobeto.rentACar.services.dtos.user.request.DeleteUserRequest;
-import com.tobeto.rentACar.services.dtos.user.request.GetUserByIdRequest;
 import com.tobeto.rentACar.services.dtos.user.request.UpdateUserRequest;
 import com.tobeto.rentACar.services.dtos.user.response.GetAllUsersResponse;
 import com.tobeto.rentACar.services.dtos.user.response.GetUserByIdResponse;
@@ -40,7 +39,7 @@ public class UsersController {
     }
 
     @GetMapping("{id}")
-    public GetUserByIdResponse getById(@RequestParam @Valid GetUserByIdRequest request){
-        return  userService.getById(request.getId());
+    public GetUserByIdResponse getById(@PathVariable int id){
+        return  userService.getById(id);
     }
 }

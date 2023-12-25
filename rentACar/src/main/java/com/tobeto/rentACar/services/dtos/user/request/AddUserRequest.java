@@ -18,20 +18,20 @@ import java.time.LocalDate;
 public class AddUserRequest {
     @NotBlank (message = "Registration is not possible without a username!")
     @Length(max = 30, message = "The name cannot exceed 30 characters!")
-    @Pattern(regexp = "^[A-Za-z\\s]*$",
+    @Pattern(regexp = "^[a-zA-Z0-9_.\\p{L} ]+$",
             message = "Only include capital letters, special characters not allowed")
     private String name;
 
     @NotBlank
     @Length(max = 40, message = "The surname cannot exceed 40 characters!")
-    @Pattern(regexp = "^[A-Za-z\\s]*$",
+    @Pattern(regexp = "^[a-zA-Z0-9_.\\p{L} ]+$",
             message = "Only include capital letters, special characters not allowed")
     private String surname;
 
     @NotBlank
     @Length(max = 40, message = "The email cannot exceed 40 characters!")
-    @Pattern(regexp = "^[\\w\\.-]+@[a-zA-Z\\d\\.-]+\\.[a-zA-Z]{2,}$\n",
-            message = "Only include capital letters, special characters not allowed")
+    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
+            message = "Please enter a valid email address.")
     private String email;
 
     @NotNull(message = "Birthdate cannot be null!")

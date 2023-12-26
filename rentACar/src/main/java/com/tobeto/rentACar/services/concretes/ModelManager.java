@@ -1,8 +1,8 @@
 package com.tobeto.rentACar.services.concretes;
 
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
-import com.tobeto.rentACar.entities.Brand;
-import com.tobeto.rentACar.entities.Model;
+import com.tobeto.rentACar.entities.concretes.Brand;
+import com.tobeto.rentACar.entities.concretes.Model;
 import com.tobeto.rentACar.repositories.ModelRepository;
 import com.tobeto.rentACar.services.abstracts.BrandService;
 import com.tobeto.rentACar.services.abstracts.ModelService;
@@ -34,9 +34,13 @@ public class ModelManager implements ModelService {
 
     @Override
     public List<String> getAll() {
+        /*
         return modelRepository.findAll().stream()
                 .map(Model::getName)
                 .collect(Collectors.toList());
+
+         */
+        return null;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.tobeto.rentACar.services.abstracts;
 
-import com.tobeto.rentACar.entities.Brand;
+import com.tobeto.rentACar.entities.concretes.Brand;
 import com.tobeto.rentACar.services.dtos.brand.request.AddBrandRequest;
 import com.tobeto.rentACar.services.dtos.brand.request.UpdateBrandRequest;
 import com.tobeto.rentACar.services.dtos.brand.response.GetBrandByIdResponse;

@@ -1,8 +1,8 @@
 package com.tobeto.rentACar.services.concretes;
 
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
-import com.tobeto.rentACar.entities.Car;
-import com.tobeto.rentACar.entities.Rental;
+import com.tobeto.rentACar.entities.concretes.Car;
+import com.tobeto.rentACar.entities.concretes.Rental;
 import com.tobeto.rentACar.repositories.RentalRepository;
 import com.tobeto.rentACar.services.abstracts.CarService;
 import com.tobeto.rentACar.services.abstracts.RentalService;
@@ -10,13 +10,11 @@ import com.tobeto.rentACar.services.abstracts.UserService;
 import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
-import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -29,7 +27,7 @@ public class RentalManager implements RentalService {
 
     @Override
     public void add(AddRentalRequest request) {
-
+/*
         //Araç kiralarken verilen başlangıç tarihi bugünden daha geçmiş bi tarih olamaz.
         if (request.getStartDate().isBefore(LocalDate.now())){
             throw new RuntimeException("Start date cannot be in the past");
@@ -70,6 +68,8 @@ public class RentalManager implements RentalService {
         rental.setStartKilometer(currentCarKilometer);
         rental.setTotalPrice(totalPrice);
         rentalRepository.save(rental);
+        */
+
     }
 
     @Override

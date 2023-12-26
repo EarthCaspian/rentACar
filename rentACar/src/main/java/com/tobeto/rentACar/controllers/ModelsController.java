@@ -1,8 +1,6 @@
 package com.tobeto.rentACar.controllers;
 
 
-import com.tobeto.rentACar.entities.Model;
-import com.tobeto.rentACar.repositories.ModelRepository;
 import com.tobeto.rentACar.services.abstracts.ModelService;
 import com.tobeto.rentACar.services.dtos.model.request.AddModelRequest;
 import com.tobeto.rentACar.services.dtos.model.request.UpdateModelRequest;

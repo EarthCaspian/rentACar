@@ -1,10 +1,8 @@
 package com.tobeto.rentACar.controllers;
 
-import com.tobeto.rentACar.entities.Car;
 import com.tobeto.rentACar.services.abstracts.CarService;
 import com.tobeto.rentACar.services.dtos.car.request.AddCarRequest;
 import com.tobeto.rentACar.services.dtos.car.request.DeleteCarRequest;
-import com.tobeto.rentACar.services.dtos.car.request.GetCarByIdRequest;
 import com.tobeto.rentACar.services.dtos.car.request.UpdateCarRequest;
 import com.tobeto.rentACar.services.dtos.car.response.GetAllCarResponse;
 import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
@@ -41,7 +39,7 @@ public class CarsController {
     }
 
     @GetMapping("{id}")
-    public GetCarByIdResponse getCarById(GetCarByIdRequest request){
-        return carService.getCarById(request);
+    public GetCarByIdResponse getCarById(@PathVariable int id){
+        return carService.getCarById(id);
     }
 }

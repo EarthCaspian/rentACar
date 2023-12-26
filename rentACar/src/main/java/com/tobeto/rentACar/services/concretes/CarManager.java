@@ -1,12 +1,11 @@
 package com.tobeto.rentACar.services.concretes;
 
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
-import com.tobeto.rentACar.entities.Car;
+import com.tobeto.rentACar.entities.concretes.Car;
 import com.tobeto.rentACar.repositories.CarRepository;
 import com.tobeto.rentACar.services.abstracts.CarService;
 import com.tobeto.rentACar.services.dtos.car.request.AddCarRequest;
 import com.tobeto.rentACar.services.dtos.car.request.DeleteCarRequest;
-import com.tobeto.rentACar.services.dtos.car.request.GetCarByIdRequest;
 import com.tobeto.rentACar.services.dtos.car.request.UpdateCarRequest;
 import com.tobeto.rentACar.services.dtos.car.response.GetAllCarResponse;
 import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
@@ -16,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -30,9 +30,10 @@ public class CarManager implements CarService {
     }
 
     @Override
-    public GetCarByIdResponse getCarById(GetCarByIdRequest request) {
-        //Finding the relevant object!
-        Car car = carRepository.findById(request.getId()).orElseThrow();
+    public GetCarByIdResponse getCarById(int id) {
+        //Checking whether the relevant user exists or not
+        Car car = carRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("User not found with ID: " + id));
 
         //Mapping the object to the response object
         return this.modelMapperService.forResponse()
@@ -46,29 +47,42 @@ public class CarManager implements CarService {
 
     @Override
     public void add(AddCarRequest request) {
+
+        //The input is converted as compatible with the database
+        request.setPlate(request.getPlate().replaceAll("[\\s-]", ""));
+
         //Business Rule
+        //Two vehicles cannot be registered with the same license plate
         if (carRepository.existsCarByPlate(request.getPlate())){
             throw  new RuntimeException("Car cannot be registered with the same plate!");
         }
-        request.setPlate(request.getPlate().replaceAll("[\\s-]", ""));
-        Car car = this.modelMapperService.forRequest()
-                .map(request, Car.class);
+
+        //Mapping
+        Car car = this.modelMapperService.forRequest().map(request, Car.class);
+
+        //Saving
         carRepository.save(car);
+
     }
 
     @Override
     public void update(UpdateCarRequest request) {
+
+        //The input is converted as compatible with the database
+        request.setPlate(request.getPlate().replaceAll("[\\s-]", ""));
+
         //Business Rule
+        //Two vehicles cannot be registered with the same license plate
         if (carRepository.existsCarByPlate(request.getPlate())){
             throw  new RuntimeException("Car cannot be registered with the same plate!");
         }
 
-        request.setPlate(request.getPlate().replaceAll("[\\s-]", ""));
+        //Mapping
+        Car car = this.modelMapperService.forRequest().map(request, Car.class);
 
-        Car car = this.modelMapperService.forRequest()
-                .map(request, Car.class);
-
+        //Updating
         carRepository.save(car);
+
     }
 
     @Override
@@ -83,6 +97,5 @@ public class CarManager implements CarService {
     public boolean existsCarById(int carId) {
         return carRepository.existsCarById(carId);
     }
-
 
 }

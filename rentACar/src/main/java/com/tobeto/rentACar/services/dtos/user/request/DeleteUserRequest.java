@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeleteUserRequest {
     @NotNull
-    @Positive
+    @Positive(message = "The assigned value must not assume a negative numerical value!")
     private int id;
 }

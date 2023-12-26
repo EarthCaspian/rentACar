@@ -10,4 +10,7 @@ public class AddColorRequest {
 	@NotBlank
 	@Length(min = 2, message = "Color name cannot be less than 2 characters!")
 	private String name;
+
+	@NotBlank
+	private String code;
 }

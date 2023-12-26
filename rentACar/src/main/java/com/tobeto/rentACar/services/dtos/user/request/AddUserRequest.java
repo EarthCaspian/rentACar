@@ -1,10 +1,7 @@
 package com.tobeto.rentACar.services.dtos.user.request;
 
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,25 +13,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddUserRequest {
-    @NotBlank (message = "Registration is not possible without a username!")
-    @Length(max = 30, message = "The name cannot exceed 30 characters!")
-    @Pattern(regexp = "^[a-zA-Z0-9_.\\p{L} ]+$",
-            message = "Only include capital letters, special characters not allowed")
-    private String name;
-
-    @NotBlank
-    @Length(max = 40, message = "The surname cannot exceed 40 characters!")
-    @Pattern(regexp = "^[a-zA-Z0-9_.\\p{L} ]+$",
-            message = "Only include capital letters, special characters not allowed")
-    private String surname;
 
     @NotBlank
     @Length(max = 40, message = "The email cannot exceed 40 characters!")
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
-            message = "Please enter a valid email address.")
+            message = "Geçerli bir e-posta adresi giriniz.")
     private String email;
 
-    @NotNull(message = "Birthdate cannot be null!")
-    @Past(message = "Birthdate must be in the past!")
-    private LocalDate birthdate;
+    @NotBlank
+    private String password;
+
 }

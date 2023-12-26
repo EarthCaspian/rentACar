@@ -21,5 +21,7 @@ public class UpdateBrandRequest {
     @Length(min = 2, message = "Name length should be at least 2 characters long.")
     private String name;
 
+    @NotBlank
+    private String logoPath;
 
 }

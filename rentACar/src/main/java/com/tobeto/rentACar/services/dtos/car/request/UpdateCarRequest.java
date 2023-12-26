@@ -1,10 +1,14 @@
 package com.tobeto.rentACar.services.dtos.car.request;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UpdateCarRequest {
     @NotNull
     @Positive(message = "The value cannot be negative!")
@@ -12,7 +16,7 @@ public class UpdateCarRequest {
 
     @NotNull
     @Positive(message = "The value cannot be negative!")
-    private int kilometer;
+    private Long kilometer;
 
     @NotBlank
     @Length(max = 10)
@@ -23,11 +27,11 @@ public class UpdateCarRequest {
     @NotNull
     @Min(value = 2005, message = "Production year must be between 2005 to 2024!")
     @Max(value = 2024, message = "Production year must be between 2005 to 2024!")
-    private int year;
+    private short modelYear;
 
     @NotNull
     @Positive(message = "The value cannot be negative!")
-    private double dailyPrice;
+    private Float dailyPrice;
 
     @NotNull
     @Positive(message = "The value cannot be negative!")
@@ -36,4 +40,11 @@ public class UpdateCarRequest {
     @NotNull
     @Positive(message = "The value cannot be negative!")
     private int colorId;
+
+    @NotNull
+    private short minFindeksRate;
+
+    @NotBlank
+    private String imagePath;
+
 }

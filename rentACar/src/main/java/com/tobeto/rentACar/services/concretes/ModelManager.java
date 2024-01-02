@@ -8,6 +8,7 @@ import com.tobeto.rentACar.services.abstracts.BrandService;
 import com.tobeto.rentACar.services.abstracts.ModelService;
 import com.tobeto.rentACar.services.dtos.model.request.AddModelRequest;
 import com.tobeto.rentACar.services.dtos.model.request.UpdateModelRequest;
+import com.tobeto.rentACar.services.dtos.model.response.GetAllModelsResponse;
 import com.tobeto.rentACar.services.dtos.model.response.GetModelByIdResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,15 +34,18 @@ public class ModelManager implements ModelService {
     }
 
     @Override
-    public List<String> getAll() {
-        /*
+    public List<String> getAllName() {
+
         return modelRepository.findAll().stream()
                 .map(Model::getName)
                 .collect(Collectors.toList());
-
-         */
-        return null;
     }
+
+    @Override
+    public List<GetAllModelsResponse> getAll() {
+        return modelRepository.getAll();
+    }
+
 
     @Override
     public void add(AddModelRequest request) {

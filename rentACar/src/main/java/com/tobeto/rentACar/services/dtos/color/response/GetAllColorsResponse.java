@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetColorByIdResponse {
-    private int id;
+public class GetAllColorsResponse {
     private String name;
     private String code;
 }

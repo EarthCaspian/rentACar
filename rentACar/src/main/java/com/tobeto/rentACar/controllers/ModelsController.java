@@ -4,6 +4,7 @@ package com.tobeto.rentACar.controllers;
 import com.tobeto.rentACar.services.abstracts.ModelService;
 import com.tobeto.rentACar.services.dtos.model.request.AddModelRequest;
 import com.tobeto.rentACar.services.dtos.model.request.UpdateModelRequest;
+import com.tobeto.rentACar.services.dtos.model.response.GetAllModelsResponse;
 import com.tobeto.rentACar.services.dtos.model.response.GetModelByIdResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,14 @@ public class ModelsController {
     ModelService modelService;
 
 
+    @GetMapping("getAllName")
+    List<String> getAllName() {
+         return modelService.getAllName();
+    }
+
     @GetMapping
-    List<String> getAll() {
-         return modelService.getAll();
+    List<GetAllModelsResponse> getAll() {
+        return modelService.getAll();
     }
 
     @GetMapping("/{id}")

@@ -4,6 +4,7 @@ package com.tobeto.rentACar.controllers;
 import com.tobeto.rentACar.services.abstracts.BrandService;
 import com.tobeto.rentACar.services.dtos.brand.request.AddBrandRequest;
 import com.tobeto.rentACar.services.dtos.brand.request.UpdateBrandRequest;
+import com.tobeto.rentACar.services.dtos.brand.response.GetAllBrandsResponse;
 import com.tobeto.rentACar.services.dtos.brand.response.GetBrandByIdResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -22,8 +23,13 @@ public class BrandsController {
 
 
 
+    @GetMapping("getAllName")
+    public List<String> getAllName() {
+        return brandService.getAllName();
+    }
+
     @GetMapping
-    public List<String> getAll() {
+    public List<GetAllBrandsResponse> getAll(){
         return brandService.getAll();
     }
 

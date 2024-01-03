@@ -12,5 +12,6 @@ public class AddColorRequest {
 	private String name;
 
 	@NotBlank
+	@Length(min = 6, max = 6, message = "Color code must be exactly 6 characters!")
 	private String code;
 }

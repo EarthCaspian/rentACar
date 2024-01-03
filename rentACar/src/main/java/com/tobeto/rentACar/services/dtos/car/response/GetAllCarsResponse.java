@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class GetAllCarResponse {
+public class GetAllCarsResponse {
 
     private short modelYear;
 

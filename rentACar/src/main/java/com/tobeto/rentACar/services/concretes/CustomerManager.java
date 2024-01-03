@@ -7,7 +7,7 @@ import com.tobeto.rentACar.services.abstracts.CustomerService;
 import com.tobeto.rentACar.services.dtos.customer.request.AddCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customer.request.DeleteCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customer.request.UpdateCustomerRequest;
-import com.tobeto.rentACar.services.dtos.customer.response.GetAllCustomerResponse;
+import com.tobeto.rentACar.services.dtos.customer.response.GetAllCustomersResponse;
 import com.tobeto.rentACar.services.dtos.customer.response.GetCustomerByIdResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -75,7 +75,7 @@ public class CustomerManager implements CustomerService {
     }
 
     @Override
-    public List<GetAllCustomerResponse> getAll() {
+    public List<GetAllCustomersResponse> getAll() {
         return customerRepository.getAll();
     }
 

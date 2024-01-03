@@ -4,13 +4,13 @@ import com.tobeto.rentACar.entities.concretes.Car;
 import com.tobeto.rentACar.services.dtos.car.request.AddCarRequest;
 import com.tobeto.rentACar.services.dtos.car.request.DeleteCarRequest;
 import com.tobeto.rentACar.services.dtos.car.request.UpdateCarRequest;
-import com.tobeto.rentACar.services.dtos.car.response.GetAllCarResponse;
+import com.tobeto.rentACar.services.dtos.car.response.GetAllCarsResponse;
 import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
 
 import java.util.List;
 
 public interface CarService {
-    List<GetAllCarResponse> getAll();
+    List<GetAllCarsResponse> getAll();
     GetCarByIdResponse getCarById(int id);
 
     Car getById(int id);

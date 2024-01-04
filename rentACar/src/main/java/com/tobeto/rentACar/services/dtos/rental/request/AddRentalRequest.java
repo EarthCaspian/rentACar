@@ -20,9 +20,6 @@ public class AddRentalRequest {
     private LocalDate endDate;
 
     @NotNull
-    private double totalPrice;
-
-    @NotNull
     @Positive(message = "The assigned value must not assume a negative numerical value!")
     private int carId;
 

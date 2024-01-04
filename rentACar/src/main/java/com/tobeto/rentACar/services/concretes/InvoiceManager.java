@@ -55,7 +55,10 @@ public class InvoiceManager implements InvoiceService {
 
     @Override
     public List<GetAllInvoicesResponse> getAll() {
-        return invoiceRepository.getAll();
+
+        List<Invoice> invoices = invoiceRepository.findAll();
+        List<GetAllInvoicesResponse> invoicesResponses = invoices.stream().map(invoice -> this.modelMapperService.forResponse().map(invoice, GetAllInvoicesResponse.class)).toList();
+        return invoicesResponses;
     }
 
     @Override

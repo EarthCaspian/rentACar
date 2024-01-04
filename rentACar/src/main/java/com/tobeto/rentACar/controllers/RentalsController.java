@@ -1,11 +1,11 @@
 package com.tobeto.rentACar.controllers;
 
-import com.tobeto.rentACar.repositories.RentalRepository;
 import com.tobeto.rentACar.services.abstracts.RentalService;
 import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
-import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalResponse;
+import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
+import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -34,11 +34,12 @@ public class RentalsController {
         rentalService.delete(request);
     }
 
-    //@GetMapping
-    //public List<GetAllRentalResponse> getAll(){
-        //return rentalService.getAll();
-    //}
-
-
-
+    @GetMapping
+    public List<GetAllRentalsResponse> getAll(){
+        return rentalService.getAll();
+    }
+    @GetMapping("{id}")
+    public GetRentalByIdResponse getById(@PathVariable int id){
+        return rentalService.getById(id);
+    }
 }

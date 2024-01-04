@@ -4,7 +4,7 @@ import com.tobeto.rentACar.services.abstracts.CarService;
 import com.tobeto.rentACar.services.dtos.car.request.AddCarRequest;
 import com.tobeto.rentACar.services.dtos.car.request.DeleteCarRequest;
 import com.tobeto.rentACar.services.dtos.car.request.UpdateCarRequest;
-import com.tobeto.rentACar.services.dtos.car.response.GetAllCarResponse;
+import com.tobeto.rentACar.services.dtos.car.response.GetAllCarsResponse;
 import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ public class CarsController {
     }
 
     @GetMapping
-    public List<GetAllCarResponse> getAll(){
+    public List<GetAllCarsResponse> getAll(){
        return carService.getAll();
     }
 

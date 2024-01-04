@@ -1,8 +1,7 @@
 package com.tobeto.rentACar.repositories;
 
 import com.tobeto.rentACar.entities.concretes.Car;
-import com.tobeto.rentACar.services.dtos.car.response.GetAllCarResponse;
-import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
+import com.tobeto.rentACar.services.dtos.car.response.GetAllCarsResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,7 +12,7 @@ public interface CarRepository extends JpaRepository<Car,Integer> {
     boolean existsCarByPlate(String plate);
     boolean existsCarById(int carId);
 
-   @Query("select new com.tobeto.rentACar.services.dtos.car.response.GetAllCarResponse" +
+   @Query("select new com.tobeto.rentACar.services.dtos.car.response.GetAllCarsResponse" +
            "(" +
            "c.modelYear, c.plate, c.minFindeksRate, c.kilometer, c.dailyPrice, c.imagePath," +
            "new com.tobeto.rentACar.services.dtos.model.response.GetModelByIdResponse(m.name," +
@@ -24,6 +23,6 @@ public interface CarRepository extends JpaRepository<Car,Integer> {
            "inner join c.model m " +
            "inner join c.color co " +
            "inner join m.brand b")
-   List<GetAllCarResponse> getAll();
+   List<GetAllCarsResponse> getAll();
 
 }

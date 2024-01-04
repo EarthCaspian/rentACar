@@ -2,12 +2,14 @@ package com.tobeto.rentACar.services.dtos.rental.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-public class GetAllRentalResponse {
+@NoArgsConstructor
+public class GetRentalByIdResponse {
 
     private LocalDate startDate;
 
@@ -18,5 +20,4 @@ public class GetAllRentalResponse {
     private int startKilometer;
 
     private int endKilometer;
-
 }

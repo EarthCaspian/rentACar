@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllCustomerResponse {
+public class GetAllCustomersResponse {
     private String firstName;
     private String lastName;
     private LocalDate birthdate;

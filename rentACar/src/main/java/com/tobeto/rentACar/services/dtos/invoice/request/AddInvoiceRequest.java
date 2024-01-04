@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddInvoiceRequest {
 
+    @NotNull
+    private String invoiceNo;
+
     @NotNull(message = "Total price cannot be null")
     @Min(value = 0, message = "Total price must be greater than or equal to 0")
     private Float totalPrice;

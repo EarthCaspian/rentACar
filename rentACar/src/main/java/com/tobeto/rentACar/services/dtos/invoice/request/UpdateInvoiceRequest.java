@@ -16,6 +16,9 @@ public class UpdateInvoiceRequest {
     @Positive(message = "The assigned value must not assume a negative numerical value!")
     private int id;
 
+    @NotNull
+    private String invoiceNo;
+
     @NotNull(message = "Total price cannot be null")
     @Min(value = 0, message = "Total price must be greater than or equal to 0")
     private Float totalPrice;

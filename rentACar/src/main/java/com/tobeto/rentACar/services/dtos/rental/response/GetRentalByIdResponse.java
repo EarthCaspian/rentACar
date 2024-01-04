@@ -19,5 +19,9 @@ public class GetRentalByIdResponse {
 
     private int startKilometer;
 
-    private int endKilometer;
+    private double totalPrice;
+
+    private String carPlate;
+
+    private String userEmail;
 }

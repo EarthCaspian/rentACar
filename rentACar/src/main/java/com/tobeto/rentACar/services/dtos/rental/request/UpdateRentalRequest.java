@@ -27,9 +27,6 @@ public class UpdateRentalRequest {
     private LocalDate returnDate;
 
     @NotNull
-    private int startKilometer;
-
-    @NotNull
     private int endKilometer;
 
     @NotNull

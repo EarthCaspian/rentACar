@@ -99,18 +99,23 @@ public class RentalManager implements RentalService {
 
     @Override
     public List<GetAllRentalsResponse> getAll() {
-        return rentalRepository.getAll();
+        List<Rental> rentals = rentalRepository.findAll();
+        List<GetAllRentalsResponse> rentalsResponse = rentals.stream().map(rental -> this.modelMapperService.forResponse().map(rental, GetAllRentalsResponse.class)).toList();
+        return rentalsResponse;
     }
 
     @Override
     public GetRentalByIdResponse getById(int id) {
 
-        //Checking whether the relevant rental exists or not
+       //Checking whether the relevant rental exists or not
         Rental rental = rentalRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("Rental not found with ID: " + id));
 
         //Mapping
         return modelMapperService.forResponse().map(rental, GetRentalByIdResponse.class);
+
+        /*GetRentalByIdResponse response = modelMapperService.forResponse().map(rentalRepository.findById(id), GetRentalByIdResponse.class);
+        return response;*/
     }
 
 

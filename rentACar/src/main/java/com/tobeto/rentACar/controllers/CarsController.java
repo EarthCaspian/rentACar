@@ -18,27 +18,27 @@ import java.util.List;
 public class CarsController {
     private final CarService carService;
 
-    @PostMapping
+    @PostMapping("/add")
     public void add(@RequestBody @Valid AddCarRequest request){
         carService.add(request);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public void update(@RequestBody @Valid UpdateCarRequest request){
         carService.update(request);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public void delete(@RequestBody DeleteCarRequest request){
         carService.delete(request);
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<GetAllCarsResponse> getAll(){
        return carService.getAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/getCarById/{id}")
     public GetCarByIdResponse getCarById(@PathVariable int id){
         return carService.getCarById(id);
     }

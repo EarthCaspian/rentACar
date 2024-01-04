@@ -22,33 +22,33 @@ public class ModelsController {
     ModelService modelService;
 
 
-    @GetMapping("getAllName")
+    @GetMapping("/getAllName")
     List<String> getAllName() {
          return modelService.getAllName();
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     List<GetAllModelsResponse> getAll() {
         return modelService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getById/{id}")
     public GetModelByIdResponse getById(@PathVariable int id) {
         return modelService.getByIdDTO(id);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public void delete(int id) {
         modelService.delete(id);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
     public void add(@RequestBody @Valid AddModelRequest request) {
         modelService.add(request);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public void update(@RequestBody @Valid UpdateModelRequest request) {
         modelService.update(request);
     }

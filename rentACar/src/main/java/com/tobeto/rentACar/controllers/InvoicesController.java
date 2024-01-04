@@ -18,27 +18,27 @@ import java.util.List;
 public class InvoicesController {
     private final InvoiceService invoiceService;
 
-    @PostMapping
+    @PostMapping("/add")
     public void add(@RequestBody @Valid AddInvoiceRequest request){
         invoiceService.add(request);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public void update(@RequestBody @Valid UpdateInvoiceRequest request){
         invoiceService.update(request);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public void delete(@RequestBody @Valid DeleteInvoiceRequest request){
         invoiceService.delete(request);
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<GetAllInvoicesResponse> getAll(){
         return invoiceService.getAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/getById/{id}")
     public GetInvoiceByIdResponse getById(@PathVariable int id){
         return invoiceService.getById(id);
     }

@@ -19,27 +19,27 @@ public class UsersController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/add")
     public void add(@RequestBody @Valid AddUserRequest request){
         userService.add(request);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public void update(@RequestBody @Valid UpdateUserRequest request){
         userService.update(request);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public void delete(@RequestBody @Valid DeleteUserRequest request){
         userService.delete(request);
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<GetAllUsersResponse> getAll(){
         return userService.getAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/getById/{id}")
     public GetUserByIdResponse getById(@PathVariable int id){
         return  userService.getById(id);
     }

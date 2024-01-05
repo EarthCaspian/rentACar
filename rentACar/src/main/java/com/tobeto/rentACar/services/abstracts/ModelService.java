@@ -9,9 +9,7 @@ import com.tobeto.rentACar.services.dtos.model.response.GetModelByIdResponse;
 import java.util.List;
 
 public interface ModelService {
-    Model getById(int id);
-
-    GetModelByIdResponse getByIdDTO(int id);
+    GetModelByIdResponse getById(int id);
     List<String> getAllName();
     List<GetAllModelsResponse> getAll();
     void add(AddModelRequest request);

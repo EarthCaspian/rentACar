@@ -8,6 +8,7 @@ import com.tobeto.rentACar.repositories.RentalRepository;
 import com.tobeto.rentACar.services.abstracts.CarService;
 import com.tobeto.rentACar.services.abstracts.RentalService;
 import com.tobeto.rentACar.services.abstracts.UserService;
+import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
 import com.tobeto.rentACar.services.dtos.invoice.response.GetInvoiceByIdResponse;
 import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
@@ -60,7 +61,7 @@ public class RentalManager implements RentalService {
         }
 
         //When renting, the StartKilometer should be taken from the Kilometer field of the vehicle to be rented.
-        Car car = carService.getById(request.getCarId());
+        GetCarByIdResponse car = carService.getById(request.getCarId());
         Long currentCarKilometer = car.getKilometer();
 
         // TotalPrice should be calculated and saved (user will not provide)

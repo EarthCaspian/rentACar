@@ -76,7 +76,13 @@ public class CustomerManager implements CustomerService {
 
     @Override
     public List<GetAllCustomersResponse> getAll() {
-        return customerRepository.getAll();
+        List<Customer> customers = customerRepository.findAll();
+        return customers
+                .stream()
+                .map((car) -> this.modelMapperService
+                        .forResponse()
+                        .map(car, GetAllCustomersResponse.class))
+                .toList();
     }
 
     @Override

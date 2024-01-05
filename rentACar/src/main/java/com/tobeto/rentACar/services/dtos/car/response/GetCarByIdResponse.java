@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetCarByIdResponse {
-    private  int id;
     private short modelYear;
     private String plate;
     private short minFindeksRate;

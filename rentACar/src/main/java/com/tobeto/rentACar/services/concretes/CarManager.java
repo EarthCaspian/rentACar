@@ -26,11 +26,12 @@ public class CarManager implements CarService {
 
     @Override
     public List<GetAllCarsResponse> getAll() {
-        return carRepository.getAll();
+        List<Car> cars = carRepository.findAll();
+        return cars.stream().map((car) -> this.modelMapperService.forResponse().map(car, GetAllCarsResponse.class)).toList();
     }
 
     @Override
-    public GetCarByIdResponse getCarById(int id) {
+    public GetCarByIdResponse getById(int id) {
         //Checking whether the relevant user exists or not
         Car car = carRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("User not found with ID: " + id));
@@ -38,11 +39,6 @@ public class CarManager implements CarService {
         //Mapping the object to the response object
         return this.modelMapperService.forResponse()
                 .map(car, GetCarByIdResponse.class);
-    }
-
-    @Override
-    public Car getById(int id) {
-        return carRepository.findById(id).orElseThrow();
     }
 
     @Override

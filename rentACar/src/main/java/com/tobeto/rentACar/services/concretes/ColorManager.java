@@ -20,14 +20,20 @@ public class ColorManager implements ColorService {
     private final ModelMapperService modelMapperService;
 
     @Override
-    public GetColorByIdResponse getByIdDTO(int id) {
+    public GetColorByIdResponse getById(int id) {
         Color color = colorRepository.findById(id).orElseThrow();
         return modelMapperService.forResponse().map(color,GetColorByIdResponse.class);
     }
 
     @Override
     public List<GetAllColorsResponse> getAll() {
-        return colorRepository.getAll();
+        List<Color> colors = colorRepository.findAll();
+        return colors
+                .stream()
+                .map(color -> this.modelMapperService
+                        .forResponse()
+                        .map(color, GetAllColorsResponse.class))
+                .toList();
     }
 
     @Override

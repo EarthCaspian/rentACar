@@ -38,8 +38,8 @@ public class CarsController {
        return carService.getAll();
     }
 
-    @GetMapping("/getCarById/{id}")
-    public GetCarByIdResponse getCarById(@PathVariable int id){
-        return carService.getCarById(id);
+    @GetMapping("/getById/{id}")
+    public GetCarByIdResponse getById(@PathVariable int id){
+        return carService.getById(id);
     }
 }

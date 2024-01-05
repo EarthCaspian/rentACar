@@ -12,8 +12,4 @@ public interface BrandRepository extends JpaRepository<Brand, Integer> {
 
     boolean existsByName(String name);
 
-    @Query("select new com.tobeto.rentACar.services.dtos.brand.response.GetAllBrandsResponse" +
-            "(b.name,b.logoPath) from Brand b ")
-    List<GetAllBrandsResponse> getAll();
-
 }

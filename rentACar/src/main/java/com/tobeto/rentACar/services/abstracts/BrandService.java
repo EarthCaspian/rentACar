@@ -9,8 +9,7 @@ import com.tobeto.rentACar.services.dtos.brand.response.GetBrandByIdResponse;
 import java.util.List;
 
 public interface BrandService {
-    GetBrandByIdResponse getByIdDTO(int id);
-    Brand getById(int id);
+    GetBrandByIdResponse getById(int id);
     List<String> getAllName();
     List<GetAllBrandsResponse> getAll();
     void add(AddBrandRequest request);

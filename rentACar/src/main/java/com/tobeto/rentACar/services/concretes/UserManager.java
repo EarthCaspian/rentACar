@@ -75,7 +75,13 @@ public class UserManager implements UserService {
 
     @Override
     public List<GetAllUsersResponse> getAll() {
-        return userRepository.getAll();
+        List<User> users = userRepository.findAll();
+        return users
+                .stream()
+                .map(user -> this.modelMapperService
+                        .forResponse()
+                        .map(user, GetAllUsersResponse.class))
+                .toList();
     }
 
     @Override

@@ -18,10 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BrandsController {
 
-
-    BrandService brandService;
-
-
+    private final BrandService brandService;
 
     @GetMapping("/getAllName")
     public List<String> getAllName() {
@@ -35,7 +32,7 @@ public class BrandsController {
 
     @GetMapping("/getById/{id}")
     public GetBrandByIdResponse getById(@PathVariable int id) {
-        return brandService.getByIdDTO(id);
+        return brandService.getById(id);
     }
 
     @DeleteMapping("/delete")

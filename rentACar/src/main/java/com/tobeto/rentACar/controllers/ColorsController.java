@@ -18,27 +18,27 @@ public class ColorsController {
 	private final ColorService colorService;
 
 
-	@PostMapping
+	@PostMapping("/add")
 	public void add(@RequestBody @Valid AddColorRequest request){
 		colorService.add(request);
 	}
 
-	@PutMapping
+	@PutMapping("/update")
 	public void update(@RequestBody @Valid UpdateColorRequest request) {
 		colorService.update(request);
 	}
 
-	@GetMapping
+	@GetMapping("/getAll")
 	List<GetAllColorsResponse> getAll() {
 	   return colorService.getAll();
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("getByIdDTO/{id}")
 	public GetColorByIdResponse getByIdDTO(@PathVariable int id) {
 		return colorService.getByIdDTO(id);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete/{id}")
 	public void delete(int id) {
 		colorService.delete(id);
 	}

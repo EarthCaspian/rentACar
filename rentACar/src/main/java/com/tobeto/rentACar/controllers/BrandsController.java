@@ -23,33 +23,33 @@ public class BrandsController {
 
 
 
-    @GetMapping("getAllName")
+    @GetMapping("/getAllName")
     public List<String> getAllName() {
         return brandService.getAllName();
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<GetAllBrandsResponse> getAll(){
         return brandService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getById/{id}")
     public GetBrandByIdResponse getById(@PathVariable int id) {
         return brandService.getByIdDTO(id);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public void delete(int id) {
         brandService.delete(id);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
     public void add(@RequestBody @Valid AddBrandRequest request) {
         brandService.add(request);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public void update(@RequestBody @Valid UpdateBrandRequest request) {
         brandService.update(request);
     }

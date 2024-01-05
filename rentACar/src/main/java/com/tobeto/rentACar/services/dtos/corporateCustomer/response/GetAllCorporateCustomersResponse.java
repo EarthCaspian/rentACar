@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.services.dtos.corporateCustomer.response;
 
+import com.tobeto.rentACar.services.dtos.user.response.GetUserByIdResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllCorporateCustomerResponse {
+public class GetAllCorporateCustomersResponse {
 	private String companyName;
 	private String taxNo;
-	private String userEmail;
+	private GetUserByIdResponse user;
 }

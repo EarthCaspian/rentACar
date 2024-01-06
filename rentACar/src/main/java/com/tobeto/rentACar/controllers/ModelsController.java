@@ -19,7 +19,7 @@ import java.util.List;
 public class ModelsController {
 
 
-    ModelService modelService;
+    private final ModelService modelService;
 
 
     @GetMapping("/getAllName")
@@ -34,7 +34,7 @@ public class ModelsController {
 
     @GetMapping("/getById/{id}")
     public GetModelByIdResponse getById(@PathVariable int id) {
-        return modelService.getByIdDTO(id);
+        return modelService.getById(id);
     }
 
     @DeleteMapping("/delete")

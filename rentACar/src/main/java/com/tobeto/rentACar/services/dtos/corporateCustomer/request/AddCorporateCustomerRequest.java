@@ -22,6 +22,6 @@ public class AddCorporateCustomerRequest {
 	private String taxNo;
 
 	@NotNull(message = "The user must be specified!")
-	@Positive(message = "The assigned value must not assume a negative numerical value!")
-	private int userid;
+	//@Positive(message = "The assigned value must not assume a negative numerical value!")
+	private int userId;
 }

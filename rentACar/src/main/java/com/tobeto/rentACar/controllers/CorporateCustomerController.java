@@ -4,7 +4,7 @@ import com.tobeto.rentACar.services.abstracts.CorporateCustomerService;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.AddCorporateCustomerRequest;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.DeleteCorporateCustomerRequest;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.UpdateCorporateCustomerRequest;
-import com.tobeto.rentACar.services.dtos.corporateCustomer.response.GetAllCorporateCustomerResponse;
+import com.tobeto.rentACar.services.dtos.corporateCustomer.response.GetAllCorporateCustomersResponse;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.response.GetCorporateCustomerByIdResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -33,7 +33,7 @@ public class CorporateCustomerController {
 	}
 
 	@GetMapping("/getAll")
-	public List<GetAllCorporateCustomerResponse> getAll() {
+	public List<GetAllCorporateCustomersResponse> getAll() {
 		return corporateCustomerService.getAll();
 	}
 

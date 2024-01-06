@@ -9,7 +9,7 @@ import com.tobeto.rentACar.services.dtos.color.response.GetColorByIdResponse;
 import java.util.List;
 
 public interface ColorService {
-    GetColorByIdResponse getByIdDTO(int id);
+    GetColorByIdResponse getById(int id);
     List<GetAllColorsResponse> getAll();
     void add(AddColorRequest request);
     void update(UpdateColorRequest request);

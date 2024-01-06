@@ -21,17 +21,11 @@ public class BrandManager implements BrandService {
     private final ModelMapperService modelMapperService;
 
     @Override
-    public GetBrandByIdResponse getByIdDTO(int id) {
+    public GetBrandByIdResponse getById(int id) {
         Brand brand = brandRepository.findById(id).orElseThrow();
 
         return modelMapperService.forResponse().map(brand, GetBrandByIdResponse.class);
     }
-
-    @Override
-    public Brand getById(int id) {
-        return brandRepository.findById(id).orElseThrow();
-    }
-
 
     @Override
     public List<String> getAllName() {
@@ -42,7 +36,13 @@ public class BrandManager implements BrandService {
 
     @Override
     public List<GetAllBrandsResponse> getAll() {
-        return brandRepository.getAll();
+        List<Brand> brands = brandRepository.findAll();
+        return brands
+                .stream()
+                .map(brand -> this.modelMapperService
+                        .forResponse()
+                        .map(brand, GetAllBrandsResponse.class))
+                .toList();
     }
 
 

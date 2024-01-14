@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/cars")
 @AllArgsConstructor
+@CrossOrigin
 public class CarsController {
     private final CarService carService;
 
@@ -33,7 +34,7 @@ public class CarsController {
         carService.delete(request);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getall")
     public List<GetAllCarsResponse> getAll(){
        return carService.getAll();
     }

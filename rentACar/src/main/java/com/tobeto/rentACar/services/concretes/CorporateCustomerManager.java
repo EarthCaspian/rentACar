@@ -32,6 +32,8 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 		CorporateCustomer corporateCustomer = modelMapperService.forRequest().map(request, CorporateCustomer.class);
 
+		corporateCustomer.setId(null);
+
 		GetUserByIdResponse userResponse = userService.getById(request.getUserId());
 		if (userResponse == null)
 			throw new RuntimeException("User not found with id: " + request.getUserId());

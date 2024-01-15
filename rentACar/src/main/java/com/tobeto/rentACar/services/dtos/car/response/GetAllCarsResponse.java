@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GetAllCarsResponse {
 
+    private Integer id;
+
     private short modelYear;
 
     private String plate;

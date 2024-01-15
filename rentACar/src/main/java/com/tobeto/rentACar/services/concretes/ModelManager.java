@@ -56,6 +56,8 @@ public class ModelManager implements ModelService {
             throw new RuntimeException("There's already a model with this name.");
 
         Model model = this.modelMapperService.forRequest().map(request,Model.class);
+        model.setId(null);
+
         GetBrandByIdResponse brandResponse = brandService.getById(request.getBrandId());
 
         if (brandResponse == null) {

@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    boolean existsUserById(int userId);
-    boolean existsUserByEmail(String email);
+    boolean existsById(int id);
+    boolean existsByEmail(String email);
 }

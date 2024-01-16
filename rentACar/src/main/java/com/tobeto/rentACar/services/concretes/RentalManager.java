@@ -1,27 +1,24 @@
 package com.tobeto.rentACar.services.concretes;
 
+import com.tobeto.rentACar.core.utilities.exceptions.specificexceptions.EntityNotFoundException;
+import com.tobeto.rentACar.core.utilities.exceptions.specificexceptions.ErrorHandlingService;
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
-import com.tobeto.rentACar.entities.concretes.Car;
-import com.tobeto.rentACar.entities.concretes.Invoice;
 import com.tobeto.rentACar.entities.concretes.Rental;
 import com.tobeto.rentACar.repositories.RentalRepository;
 import com.tobeto.rentACar.services.abstracts.CarService;
 import com.tobeto.rentACar.services.abstracts.RentalService;
-import com.tobeto.rentACar.services.abstracts.UserService;
 import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
-import com.tobeto.rentACar.services.dtos.invoice.response.GetInvoiceByIdResponse;
 import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
+import com.tobeto.rentACar.services.rules.rental.RentalBusinessRule;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -30,35 +27,18 @@ public class RentalManager implements RentalService {
     private final RentalRepository rentalRepository;
     private final ModelMapperService modelMapperService;
     private final CarService carService;
-    private final UserService userService;
+    private final List<RentalBusinessRule> rentalBusinessRules;
+
+    @Override
+    public boolean existsRentalById(int id) {
+        return rentalRepository.existsRentalById(id);
+    }
 
     @Override
     public void add(AddRentalRequest request) {
 
-        //The start date given when renting a car cannot be later than today.
-        if (request.getStartDate().isBefore(LocalDate.now())){
-            throw new RuntimeException("Start date cannot be in the past");
-        }
-
-        //The end date given when renting a car cannot be later than the start date.
-        if (request.getEndDate().isBefore(request.getStartDate())){
-            throw new RuntimeException("End date cannot be before the start date");
-        }
-
-        //There must be a Car in the system with the CarId provided when renting a car.
-        if (!carService.existsCarById(request.getCarId())) {
-            throw new RuntimeException("There is no car with this id");
-        }
-
-        //There must be a User in the system with the UserId given when renting a car.
-        if(!userService.existsUserById(request.getUserId())){
-            throw new RuntimeException("There is no user with this id");
-        }
-
-        //One vehicle can be rented for a maximum of 25 days.
-        if( ChronoUnit.DAYS.between(request.getStartDate(),request.getEndDate())>25){
-            throw new RuntimeException("The rental period cannot exceed 25 days");
-        }
+        //rentalBusinessRules.forEach(rule -> rule.validateAdd(request));
+       // rentalExistenceRules.validateAdd(request);
 
         //When renting, the StartKilometer should be taken from the Kilometer field of the vehicle to be rented.
         GetCarByIdResponse car = carService.getById(request.getCarId());
@@ -69,7 +49,6 @@ public class RentalManager implements RentalService {
         long rentalDays = ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate()) + 1;
         double totalPrice = dailyPrice * rentalDays;
 
-
         Rental rental = modelMapperService.forRequest().map(request, Rental.class);
         rental.setStartKilometer(currentCarKilometer);
         rental.setTotalPrice(totalPrice);
@@ -78,6 +57,7 @@ public class RentalManager implements RentalService {
 
     @Override
     public void update(UpdateRentalRequest request) {
+        rentalBusinessRules.forEach(rule -> rule.validateUpdate(request));
 
         //Mapping
         Rental rental = modelMapperService.forRequest().map(request, Rental.class);
@@ -89,10 +69,7 @@ public class RentalManager implements RentalService {
 
     @Override
     public void delete(DeleteRentalRequest request) {
-
-        //Checking whether the relevant rental exists or not
-        rentalRepository.findById(request.getId()).orElseThrow(() ->
-                new NoSuchElementException("Rental not found with ID: " + request.getId()));
+        rentalBusinessRules.forEach(rule -> rule.validateDelete(request));
 
         //Deleting
         rentalRepository.deleteById(request.getId());
@@ -109,8 +86,8 @@ public class RentalManager implements RentalService {
     public GetRentalByIdResponse getById(int id) {
 
        //Checking whether the relevant rental exists or not
-        Rental rental = rentalRepository.findById(id).orElseThrow(() ->
-                new NoSuchElementException("Rental not found with ID: " + id));
+        Rental rental = rentalRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorHandlingService.getRentalNotFoundMessage(id)));
 
         //Mapping
         return modelMapperService.forResponse().map(rental, GetRentalByIdResponse.class);

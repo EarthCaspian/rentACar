@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface RentalService {
 
+    boolean existsRentalById(int rentalId);
+
     void add(AddRentalRequest request);
     void update(UpdateRentalRequest request);
     void delete(DeleteRentalRequest request);

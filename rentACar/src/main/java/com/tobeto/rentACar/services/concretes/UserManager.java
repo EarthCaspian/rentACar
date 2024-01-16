@@ -9,8 +9,10 @@ import com.tobeto.rentACar.services.dtos.user.request.DeleteUserRequest;
 import com.tobeto.rentACar.services.dtos.user.request.UpdateUserRequest;
 import com.tobeto.rentACar.services.dtos.user.response.GetAllUsersResponse;
 import com.tobeto.rentACar.services.dtos.user.response.GetUserByIdResponse;
+import com.tobeto.rentACar.services.rules.user.UserBusinessRule;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,11 +23,11 @@ public class UserManager implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapperService modelMapperService;
-
+    private final UserBusinessRule userBusinessRule;
 
     @Override
     public boolean existsUserById(int userId) {
-        return userRepository.existsUserById(userId);
+        return userRepository.existsById(userId);
     }
 
     @Override
@@ -33,9 +35,10 @@ public class UserManager implements UserService {
 
         //Business Rules
         //An e-mail address can only be registered in the system once.
-        if(userRepository.existsUserByEmail(request.getEmail())){
-            throw new RuntimeException("A user account with this email address already exists!");
-        }
+        //if(userRepository.existsUserByEmail(request.getEmail())){
+        //    throw new RuntimeException("A user account with this email address already exists!");
+        //}
+
 
         //Mapping
         User user = modelMapperService.forRequest().map(request, User.class);
@@ -50,9 +53,9 @@ public class UserManager implements UserService {
 
         //Business Rules
         //An e-mail address can only be registered in the system once.
-        if(userRepository.existsUserByEmail(request.getEmail())){
-            throw new RuntimeException("A user account with this email address already exists!");
-        }
+        //if(userRepository.existsUserByEmail(request.getEmail())){
+        //    throw new RuntimeException("A user account with this email address already exists!");
+        //}
 
         //Mapping
         User user = modelMapperService.forRequest().map(request, User.class);
@@ -64,9 +67,11 @@ public class UserManager implements UserService {
 
     @Override
     public void delete(DeleteUserRequest request) {
+
+        userBusinessRule.existsUserById(request.getId());
         //Checking whether the relevant user exists or not
-        userRepository.findById(request.getId()).orElseThrow(() ->
-                new NoSuchElementException("User not found with ID: " + request.getId()));
+        //userRepository.findById(request.getId()).orElseThrow(() ->
+        //        new NoSuchElementException("User not found with ID: " + request.getId()));
 
         //Deleting
         userRepository.deleteById(request.getId());

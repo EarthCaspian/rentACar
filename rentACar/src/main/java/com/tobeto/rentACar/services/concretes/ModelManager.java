@@ -52,18 +52,17 @@ public class ModelManager implements ModelService {
 
     @Override
     public void add(AddModelRequest request) {
-
         if (modelRepository.existsByName(request.getName()))
             throw new RuntimeException("There's already a model with this name.");
 
-        Model model = modelMapperService.forRequest().map(request,Model.class);
-        /*GetBrandByIdResponse brandResponse = brandService.getById(request.getBrandId());
+        Model model = this.modelMapperService.forRequest().map(request,Model.class);
+        GetBrandByIdResponse brandResponse = brandService.getById(request.getBrandId());
 
         if (brandResponse == null) {
             throw new RuntimeException("Brand not found with id: " + request.getBrandId());
         }
         Brand brand = this.modelMapperService.forRequest().map(brandResponse, Brand.class);
-        model.setBrand(brand);*/
+        model.setBrand(brand);
         modelRepository.save(model);
     }
 

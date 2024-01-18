@@ -1,13 +1,20 @@
 package com.tobeto.rentACar.services.concretes;
 
+import com.tobeto.rentACar.core.exceptions.internationalization.MessageService;
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
+import com.tobeto.rentACar.core.utilities.results.Result;
+import com.tobeto.rentACar.core.utilities.results.SuccessResult;
 import com.tobeto.rentACar.entities.concretes.Color;
 import com.tobeto.rentACar.repositories.ColorRepository;
 import com.tobeto.rentACar.services.abstracts.ColorService;
+import com.tobeto.rentACar.services.constants.Messages;
+import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
 import com.tobeto.rentACar.services.dtos.color.request.AddColorRequest;
+import com.tobeto.rentACar.services.dtos.color.request.DeleteColorRequest;
 import com.tobeto.rentACar.services.dtos.color.request.UpdateColorRequest;
 import com.tobeto.rentACar.services.dtos.color.response.GetAllColorsResponse;
 import com.tobeto.rentACar.services.dtos.color.response.GetColorByIdResponse;
+import com.tobeto.rentACar.services.rules.ColorBusinessRule;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +25,14 @@ import java.util.List;
 public class ColorManager implements ColorService {
     private final ColorRepository colorRepository;
     private final ModelMapperService modelMapperService;
+    private final ColorBusinessRule colorBusinessRule;
+    private MessageService messageService;
 
     @Override
     public GetColorByIdResponse getById(int id) {
-        Color color = colorRepository.findById(id).orElseThrow();
-        return modelMapperService.forResponse().map(color,GetColorByIdResponse.class);
+        colorBusinessRule.existsColorById(id);
+        GetColorByIdResponse response = modelMapperService.forResponse().map(colorRepository.findById(id), GetColorByIdResponse.class);
+        return response;
     }
 
     @Override
@@ -37,33 +47,39 @@ public class ColorManager implements ColorService {
     }
 
     @Override
-    public void add(AddColorRequest request) {
-        if (colorRepository.existsColorByName(request.getName())) {
-            throw new RuntimeException("Color with this name already exists!");
-        }
-        Color color = this.modelMapperService.forRequest()
-                .map(request, Color.class);
-        colorRepository.save(color);
-    }
+    public Result add(AddColorRequest request) {
 
-    @Override
-    public void update(UpdateColorRequest request) {
-        if (colorRepository.existsColorByName(request.getName())) {
-            throw new RuntimeException("Color with this name already exists!");
-        }
+        colorBusinessRule.existsColorByName(request.getName());
 
         Color color = this.modelMapperService.forRequest()
                 .map(request, Color.class);
-
-        if (color == null) {
-            throw new RuntimeException("No color found with this id:" + request.getId());
-        }
-
         colorRepository.save(color);
+
+        return new SuccessResult(messageService.getMessage(Messages.Color.colorAddSuccess));
+
     }
 
     @Override
-    public void delete(int id) {
-        colorRepository.deleteById(id);
+    public Result update(UpdateColorRequest request) {
+        colorBusinessRule.existsColorByName(request.getName());
+        colorBusinessRule.existsColorById(request.getId());
+
+        Color color = this.modelMapperService.forRequest()
+                .map(request, Color.class);
+
+        colorRepository.save(color);
+
+        return new SuccessResult(messageService.getMessage(Messages.Color.colorUpdateSuccess));
+
+    }
+
+    @Override
+    public Result delete(DeleteColorRequest request) {
+
+        colorBusinessRule.existsColorById(request.getId());
+
+        colorRepository.deleteById(request.getId());
+
+        return new SuccessResult(messageService.getMessage(Messages.Color.colorDeleteSuccess));
     }
 }

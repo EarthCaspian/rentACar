@@ -1,4 +1,4 @@
-package com.tobeto.rentACar.services.rules.rental;
+package com.tobeto.rentACar.services.rules.deneme;
 
 import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;

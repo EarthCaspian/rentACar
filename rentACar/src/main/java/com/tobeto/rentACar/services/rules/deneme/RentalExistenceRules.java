@@ -1,7 +1,7 @@
-package com.tobeto.rentACar.services.rules.rental;
+package com.tobeto.rentACar.services.rules.deneme;
 
-import com.tobeto.rentACar.core.utilities.exceptions.specificexceptions.EntityNotFoundException;
-import com.tobeto.rentACar.core.utilities.exceptions.specificexceptions.ErrorHandlingService;
+import com.tobeto.rentACar.core.exceptions.specificexeptions.EntityNotFoundException;
+import com.tobeto.rentACar.core.exceptions.specificexeptions.ErrorHandlingService;
 import com.tobeto.rentACar.services.abstracts.CarService;
 import com.tobeto.rentACar.services.abstracts.RentalService;
 import com.tobeto.rentACar.services.abstracts.UserService;

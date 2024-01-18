@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.services.abstracts;
 
+import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.AddCorporateCustomerRequest;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.DeleteCorporateCustomerRequest;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.UpdateCorporateCustomerRequest;
@@ -9,9 +10,9 @@ import com.tobeto.rentACar.services.dtos.corporateCustomer.response.GetCorporate
 import java.util.List;
 
 public interface CorporateCustomerService {
-	void add(AddCorporateCustomerRequest request);
-	void update(UpdateCorporateCustomerRequest request);
-	void delete(DeleteCorporateCustomerRequest request);
+	Result add(AddCorporateCustomerRequest request);
+	Result update(UpdateCorporateCustomerRequest request);
+	Result delete(DeleteCorporateCustomerRequest request);
 	List<GetAllCorporateCustomersResponse> getAll();
 	GetCorporateCustomerByIdResponse getById(int id);
 }

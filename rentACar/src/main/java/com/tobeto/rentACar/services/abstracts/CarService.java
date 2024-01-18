@@ -1,6 +1,6 @@
 package com.tobeto.rentACar.services.abstracts;
 
-import com.tobeto.rentACar.entities.concretes.Car;
+import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.dtos.car.request.AddCarRequest;
 import com.tobeto.rentACar.services.dtos.car.request.DeleteCarRequest;
 import com.tobeto.rentACar.services.dtos.car.request.UpdateCarRequest;
@@ -12,9 +12,9 @@ import java.util.List;
 public interface CarService {
     List<GetAllCarsResponse> getAll();
     GetCarByIdResponse getById(int id);
-    void add(AddCarRequest request);
-    void update(UpdateCarRequest request);
-    void delete(DeleteCarRequest request);
+    Result add(AddCarRequest request);
+    Result update(UpdateCarRequest request);
+    Result delete(DeleteCarRequest request);
     boolean existsCarById(int carId);
 
 

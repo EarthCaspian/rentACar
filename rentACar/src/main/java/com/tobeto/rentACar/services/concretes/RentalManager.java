@@ -1,7 +1,7 @@
 package com.tobeto.rentACar.services.concretes;
 
-import com.tobeto.rentACar.core.utilities.exceptions.specificexceptions.EntityNotFoundException;
-import com.tobeto.rentACar.core.utilities.exceptions.specificexceptions.ErrorHandlingService;
+import com.tobeto.rentACar.core.exceptions.specificexeptions.EntityNotFoundException;
+import com.tobeto.rentACar.core.exceptions.specificexeptions.ErrorHandlingService;
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
 import com.tobeto.rentACar.entities.concretes.Rental;
 import com.tobeto.rentACar.repositories.RentalRepository;
@@ -13,7 +13,7 @@ import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
-import com.tobeto.rentACar.services.rules.rental.RentalBusinessRule;
+import com.tobeto.rentACar.services.rules.deneme.RentalBusinessRule;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

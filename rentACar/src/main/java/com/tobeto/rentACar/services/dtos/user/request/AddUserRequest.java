@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddUserRequest {
-    private int id;
 
     @NotBlank
     @Length(max = 40, message = "The email cannot exceed 40 characters!")

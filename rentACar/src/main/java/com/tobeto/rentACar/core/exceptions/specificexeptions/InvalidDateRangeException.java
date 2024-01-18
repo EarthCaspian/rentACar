@@ -1,4 +1,4 @@
-package com.tobeto.rentACar.core.utilities.exceptions.specificexceptions;
+package com.tobeto.rentACar.core.exceptions.specificexeptions;
 
 public class InvalidDateRangeException extends RuntimeException {
     public InvalidDateRangeException(String message) {

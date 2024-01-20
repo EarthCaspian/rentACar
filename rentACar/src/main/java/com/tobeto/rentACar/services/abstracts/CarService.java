@@ -15,7 +15,6 @@ public interface CarService {
     Result add(AddCarRequest request);
     Result update(UpdateCarRequest request);
     Result delete(DeleteCarRequest request);
-    boolean existsCarById(int carId);
 
 
 

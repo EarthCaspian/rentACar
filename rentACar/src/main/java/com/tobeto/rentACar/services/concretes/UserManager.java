@@ -1,6 +1,7 @@
 package com.tobeto.rentACar.services.concretes;
 
-import com.tobeto.rentACar.core.exceptions.internationalization.MessageService;
+import com.tobeto.rentACar.core.exceptions.types.NotFoundException;
+import com.tobeto.rentACar.core.utilities.messages.MessageService;
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
 import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.core.utilities.results.SuccessDataResult;
@@ -29,11 +30,6 @@ public class UserManager implements UserService {
     private final ModelMapperService modelMapperService;
     private final UserBusinessRule userBusinessRule;
     private MessageService messageService;
-
-    @Override
-    public boolean existsUserById(int userId) {
-        return userRepository.existsById(userId);
-    }
 
     @Override
     public Result add(AddUserRequest request) {
@@ -85,10 +81,12 @@ public class UserManager implements UserService {
     @Override
     public GetUserByIdResponse getById(int id) {
 
-        userBusinessRule.existsUserById(id);
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new NotFoundException(messageService.getMessage(Messages.User.getUserNotFoundMessage)));
 
-        GetUserByIdResponse response = modelMapperService.forResponse().map(userRepository.findById(id), GetUserByIdResponse.class);
-        return response;
+        //Mapping the object to the response object
+        return this.modelMapperService.forResponse()
+                .map(user, GetUserByIdResponse.class);
 
     }
 }

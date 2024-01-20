@@ -1,10 +1,8 @@
-package com.tobeto.rentACar.core.exceptions.internationalization;
+package com.tobeto.rentACar.core.utilities.messages;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;

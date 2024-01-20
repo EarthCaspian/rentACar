@@ -44,5 +44,38 @@ public class Messages {
         public static String getSameCorporateCustomerTaxNoMessage="CorporateCustomer.getSameCorporateCustomerTaxNoMessage";
     }
 
+    public static class Customer{
+        public static String customerAddSuccess = "Customer.customerAddSuccess";
+        public static String customerUpdateSuccess = "Customer.customerUpdateSuccess";
+        public static String customerDeleteSuccess = "Customer.customerDeleteSuccess";
+        public static String getCustomerNotFoundMessage ="Customer.getCustomerNotFoundMessage";
+        public static String getCustomerAgeNotValidMessage="Customer.getCustomerAgeNotValidMessage";
+    }
+
+    public static class Invoice{
+        public static String invoiceAddSuccess = "Invoice.invoiceAddSuccess";
+        public static String invoiceUpdateSuccess = "Invoice.invoiceUpdateSuccess";
+        public static String invoiceDeleteSuccess = "Invoice.invoiceDeleteSuccess";
+        public static String getInvoiceNotFoundMessage ="Invoice.getInvoiceNotFoundMessage";
+    }
+
+    public static class Model{
+        public static String modelAddSuccess = "Model.modelAddSuccess";
+        public static String modelUpdateSuccess = "Model.modelUpdateSuccess";
+        public static String modelDeleteSuccess = "Model.modelDeleteSuccess";
+        public static String getModelNotFoundMessage ="Model.getModelNotFoundMessage";
+        public static String getModelNameAlreadyExistsMessage="Model.getModelNameAlreadyExistsMessage";
+
+    }
+
+    public static class Rental{
+        public static String rentalAddSuccess = "Rental.rentalAddSuccess";
+        public static String rentalUpdateSuccess = "Rental.rentalUpdateSuccess";
+        public static String rentalDeleteSuccess = "Rental.rentalDeleteSuccess";
+        public static String getRentalNotFoundMessage ="Rental.getRentalNotFoundMessage";
+        public static String rentalPeriodExceedsLimit= "Rental.rentalPeriodExceedsLimit";
+        public static String startDateInPast= "Rental.startDateInPast";
+        public static String endDateBeforeStartDate= "Rental.endDateBeforeStartDate";
+    }
 
 }

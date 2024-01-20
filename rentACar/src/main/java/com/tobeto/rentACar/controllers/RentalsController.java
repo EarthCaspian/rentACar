@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.controllers;
 
+import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.abstracts.RentalService;
 import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
@@ -21,18 +22,18 @@ public class RentalsController {
     private final RentalService rentalService;
 
     @PostMapping("/add")
-    public void add(@RequestBody @Valid AddRentalRequest request){
-        rentalService.add(request);
+    public Result add(@RequestBody @Valid AddRentalRequest request){
+        return rentalService.add(request);
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody @Valid UpdateRentalRequest request){
-        rentalService.update(request);
+    public Result update(@RequestBody @Valid UpdateRentalRequest request){
+        return rentalService.update(request);
     }
 
     @DeleteMapping("/delete")
-    public  void delete(@RequestBody DeleteRentalRequest request){
-        rentalService.delete(request);
+    public  Result delete(@RequestBody DeleteRentalRequest request){
+        return rentalService.delete(request);
     }
 
     @GetMapping("/getAll")

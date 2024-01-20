@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface UserService {
 
-    boolean existsUserById(int userId);
     Result add(AddUserRequest request);
     Result update(UpdateUserRequest request);
     Result delete(DeleteUserRequest request);

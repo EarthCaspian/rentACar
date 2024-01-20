@@ -1,6 +1,6 @@
 package com.tobeto.rentACar.services.rules;
 
-import com.tobeto.rentACar.core.exceptions.internationalization.MessageService;
+import com.tobeto.rentACar.core.utilities.messages.MessageService;
 import com.tobeto.rentACar.core.exceptions.types.BusinessException;
 import com.tobeto.rentACar.repositories.BrandRepository;
 import com.tobeto.rentACar.services.constants.Messages;

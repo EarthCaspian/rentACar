@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.controllers;
 
+import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.abstracts.CustomerService;
 import com.tobeto.rentACar.services.dtos.customer.request.AddCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customer.request.DeleteCustomerRequest;
@@ -21,18 +22,18 @@ public class CustomersController {
     private final CustomerService customerService;
 
     @PostMapping("/add")
-    public void add(@RequestBody @Valid AddCustomerRequest request){
-        customerService.add(request);
+    public Result add(@RequestBody @Valid AddCustomerRequest request){
+        return customerService.add(request);
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody @Valid UpdateCustomerRequest request){
-        customerService.update(request);
+    public Result update(@RequestBody @Valid UpdateCustomerRequest request){
+        return customerService.update(request);
     }
 
     @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteCustomerRequest request){
-        customerService.delete(request);
+    public Result delete(@RequestBody @Valid DeleteCustomerRequest request){
+        return customerService.delete(request);
     }
 
     @GetMapping("/getAll")

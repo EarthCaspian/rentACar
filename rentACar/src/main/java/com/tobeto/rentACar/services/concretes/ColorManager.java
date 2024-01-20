@@ -1,6 +1,7 @@
 package com.tobeto.rentACar.services.concretes;
 
-import com.tobeto.rentACar.core.exceptions.internationalization.MessageService;
+import com.tobeto.rentACar.core.exceptions.types.NotFoundException;
+import com.tobeto.rentACar.core.utilities.messages.MessageService;
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
 import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.core.utilities.results.SuccessResult;
@@ -8,7 +9,6 @@ import com.tobeto.rentACar.entities.concretes.Color;
 import com.tobeto.rentACar.repositories.ColorRepository;
 import com.tobeto.rentACar.services.abstracts.ColorService;
 import com.tobeto.rentACar.services.constants.Messages;
-import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
 import com.tobeto.rentACar.services.dtos.color.request.AddColorRequest;
 import com.tobeto.rentACar.services.dtos.color.request.DeleteColorRequest;
 import com.tobeto.rentACar.services.dtos.color.request.UpdateColorRequest;
@@ -30,9 +30,13 @@ public class ColorManager implements ColorService {
 
     @Override
     public GetColorByIdResponse getById(int id) {
-        colorBusinessRule.existsColorById(id);
-        GetColorByIdResponse response = modelMapperService.forResponse().map(colorRepository.findById(id), GetColorByIdResponse.class);
-        return response;
+
+        Color color = colorRepository.findById(id).orElseThrow(() ->
+                new NotFoundException(messageService.getMessage(Messages.Color.getColorNotFoundMessage)));
+
+        //Mapping the object to the response object
+        return this.modelMapperService.forResponse()
+                .map(color, GetColorByIdResponse.class);
     }
 
     @Override

@@ -20,7 +20,6 @@ import java.util.List;
 public class ColorsController {
 	private final ColorService colorService;
 
-
 	@PostMapping("/add")
 	public Result add(@RequestBody @Valid AddColorRequest request){
 		return colorService.add(request);

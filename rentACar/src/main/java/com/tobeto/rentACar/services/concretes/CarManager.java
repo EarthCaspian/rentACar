@@ -1,6 +1,7 @@
 package com.tobeto.rentACar.services.concretes;
 
-import com.tobeto.rentACar.core.exceptions.internationalization.MessageService;
+import com.tobeto.rentACar.core.exceptions.types.NotFoundException;
+import com.tobeto.rentACar.core.utilities.messages.MessageService;
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
 import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.core.utilities.results.SuccessResult;
@@ -38,10 +39,12 @@ public class CarManager implements CarService {
     @Override
     public GetCarByIdResponse getById(int id) {
 
-        carBusinessRule.existsCarById(id);
+        Car car = carRepository.findById(id).orElseThrow(() ->
+                new NotFoundException(messageService.getMessage(Messages.Car.getCarNotFoundMessage)));
 
-        GetCarByIdResponse response = modelMapperService.forResponse().map(carRepository.findById(id), GetCarByIdResponse.class);
-        return response;
+        //Mapping the object to the response object
+        return this.modelMapperService.forResponse()
+                .map(car, GetCarByIdResponse.class);
     }
 
     @Override
@@ -84,11 +87,6 @@ public class CarManager implements CarService {
 
         return new SuccessResult(messageService.getMessage(Messages.Car.carDeleteSuccess));
 
-    }
-
-    @Override
-    public boolean existsCarById(int carId) {
-        return carRepository.existsCarById(carId);
     }
 
 }

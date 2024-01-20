@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.controllers;
 
+import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.abstracts.InvoiceService;
 import com.tobeto.rentACar.services.dtos.invoice.request.AddInvoiceRequest;
 import com.tobeto.rentACar.services.dtos.invoice.request.DeleteInvoiceRequest;
@@ -20,18 +21,18 @@ public class InvoicesController {
     private final InvoiceService invoiceService;
 
     @PostMapping("/add")
-    public void add(@RequestBody @Valid AddInvoiceRequest request){
-        invoiceService.add(request);
+    public Result add(@RequestBody @Valid AddInvoiceRequest request){
+        return invoiceService.add(request);
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody @Valid UpdateInvoiceRequest request){
-        invoiceService.update(request);
+    public Result update(@RequestBody @Valid UpdateInvoiceRequest request){
+        return invoiceService.update(request);
     }
 
     @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteInvoiceRequest request){
-        invoiceService.delete(request);
+    public Result delete(@RequestBody @Valid DeleteInvoiceRequest request){
+        return invoiceService.delete(request);
     }
 
     @GetMapping("/getAll")

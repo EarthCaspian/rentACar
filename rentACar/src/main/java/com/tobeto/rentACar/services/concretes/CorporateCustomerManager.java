@@ -1,6 +1,7 @@
 package com.tobeto.rentACar.services.concretes;
 
-import com.tobeto.rentACar.core.exceptions.internationalization.MessageService;
+import com.tobeto.rentACar.core.exceptions.types.NotFoundException;
+import com.tobeto.rentACar.core.utilities.messages.MessageService;
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
 import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.core.utilities.results.SuccessResult;
@@ -10,7 +11,6 @@ import com.tobeto.rentACar.repositories.CorporateCustomerRepository;
 import com.tobeto.rentACar.services.abstracts.CorporateCustomerService;
 import com.tobeto.rentACar.services.abstracts.UserService;
 import com.tobeto.rentACar.services.constants.Messages;
-import com.tobeto.rentACar.services.dtos.color.response.GetColorByIdResponse;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.AddCorporateCustomerRequest;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.DeleteCorporateCustomerRequest;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.UpdateCorporateCustomerRequest;
@@ -23,7 +23,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -101,9 +100,11 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	@Override
 	public GetCorporateCustomerByIdResponse getById(int id) {
 
-		corporateCustomerBusinessRule.existsCorporateCustomerById(id);
+		CorporateCustomer corporateCustomer = corporateCustomerRepository.findById(id).orElseThrow(() ->
+				new NotFoundException(messageService.getMessage(Messages.CorporateCustomer.getCorporateCustomerNotFoundMessage)));
 
-		GetCorporateCustomerByIdResponse response = modelMapperService.forResponse().map(corporateCustomerRepository.findById(id), GetCorporateCustomerByIdResponse.class);
-		return response;
+		//Mapping the object to the response object
+		return this.modelMapperService.forResponse()
+				.map(corporateCustomer, GetCorporateCustomerByIdResponse.class);
 	}
 }

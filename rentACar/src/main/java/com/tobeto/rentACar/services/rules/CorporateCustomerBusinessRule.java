@@ -1,6 +1,6 @@
 package com.tobeto.rentACar.services.rules;
 
-import com.tobeto.rentACar.core.exceptions.internationalization.MessageService;
+import com.tobeto.rentACar.core.utilities.messages.MessageService;
 import com.tobeto.rentACar.core.exceptions.types.BusinessException;
 import com.tobeto.rentACar.repositories.CorporateCustomerRepository;
 import com.tobeto.rentACar.services.constants.Messages;
@@ -16,11 +16,11 @@ public class CorporateCustomerBusinessRule {
 
     public void existsCorporateCustomerByTaxNo (String taxNo){
         if (corporateCustomerRepository.existsCorporateCustomerByTaxNo(taxNo))
-            throw new BusinessException(messageService.getMessage(Messages.Brand.getBrandNameAlreadyExistsMessage));
+            throw new BusinessException(messageService.getMessage(Messages.CorporateCustomer.getSameCorporateCustomerTaxNoMessage));
     }
     public void existsCorporateCustomerById(int id) {
         if (!corporateCustomerRepository.existsById(id)) {
-            throw new BusinessException(messageService.getMessage(Messages.Brand.getBrandNotFoundMessage));
+            throw new BusinessException(messageService.getMessage(Messages.CorporateCustomer.getCorporateCustomerNotFoundMessage));
         }
     }
 }

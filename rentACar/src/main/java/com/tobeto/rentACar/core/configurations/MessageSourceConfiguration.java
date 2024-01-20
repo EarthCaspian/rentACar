@@ -24,8 +24,7 @@ public class MessageSourceConfiguration {
     @Bean
     public LocaleResolver localeResolver(){
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-        sessionLocaleResolver.setDefaultLocale(new Locale("en", "US")); // Default dil kodunu buradan ayarlayabilirsiniz.
-
+        sessionLocaleResolver.setDefaultLocale(new Locale("en", "US"));
         return sessionLocaleResolver;
     }
 }

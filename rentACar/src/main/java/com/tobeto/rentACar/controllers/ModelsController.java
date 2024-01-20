@@ -1,8 +1,11 @@
 package com.tobeto.rentACar.controllers;
 
 
+import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.abstracts.ModelService;
+import com.tobeto.rentACar.services.dtos.color.request.DeleteColorRequest;
 import com.tobeto.rentACar.services.dtos.model.request.AddModelRequest;
+import com.tobeto.rentACar.services.dtos.model.request.DeleteModelRequest;
 import com.tobeto.rentACar.services.dtos.model.request.UpdateModelRequest;
 import com.tobeto.rentACar.services.dtos.model.response.GetAllModelsResponse;
 import com.tobeto.rentACar.services.dtos.model.response.GetModelByIdResponse;
@@ -39,19 +42,19 @@ public class ModelsController {
     }
 
     @DeleteMapping("/delete")
-    public void delete(int id) {
-        modelService.delete(id);
+    public Result delete(@RequestBody @Valid DeleteModelRequest request) {
+        return modelService.delete(request);
     }
 
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void add(@RequestBody @Valid AddModelRequest request) {
-        modelService.add(request);
+    public Result add(@RequestBody @Valid AddModelRequest request) {
+        return modelService.add(request);
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody @Valid UpdateModelRequest request) {
-        modelService.update(request);
+    public Result update(@RequestBody @Valid UpdateModelRequest request) {
+        return modelService.update(request);
     }
 
 }

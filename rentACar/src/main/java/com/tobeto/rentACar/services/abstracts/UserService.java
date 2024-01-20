@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.services.abstracts;
 
+import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.dtos.user.request.AddUserRequest;
 import com.tobeto.rentACar.services.dtos.user.request.DeleteUserRequest;
 import com.tobeto.rentACar.services.dtos.user.request.UpdateUserRequest;
@@ -10,11 +11,9 @@ import java.util.List;
 
 public interface UserService {
 
-    boolean existsUserById(int userId);
-
-    void add(AddUserRequest request);
-    void update(UpdateUserRequest request);
-    void delete(DeleteUserRequest request);
+    Result add(AddUserRequest request);
+    Result update(UpdateUserRequest request);
+    Result delete(DeleteUserRequest request);
     List<GetAllUsersResponse> getAll();
     GetUserByIdResponse getById(int id);
 }

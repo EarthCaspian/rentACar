@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetAllInvoicesResponse {
-    private int id;
+    private Integer id;
     private String invoiceNo;
     private Float totalPrice;
     private Float discountRate;

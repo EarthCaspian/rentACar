@@ -44,11 +44,6 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		CorporateCustomer corporateCustomer = modelMapperService.forRequest().map(request, CorporateCustomer.class);
 		corporateCustomer.setId(null);
 
-		GetUserByIdResponse userResponse = userService.getById(request.getUserId());
-
-		User user = this.modelMapperService.forRequest().map(userResponse, User.class);
-		corporateCustomer.setUser(user);
-
 		corporateCustomerRepository.save(corporateCustomer);
 
 		return new SuccessResult(messageService.getMessage(Messages.CorporateCustomer.corporateCustomerAddSuccess));
@@ -58,14 +53,11 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	@Override
 	public Result update(UpdateCorporateCustomerRequest request) {
 
+		corporateCustomerBusinessRule.existsCorporateCustomerById(request.getId());
 		userBusinessRule.existsUserById(request.getUserId());
 
 		CorporateCustomer corporateCustomer = modelMapperService.forRequest().map(request, CorporateCustomer.class);
 
-		GetUserByIdResponse userResponse = userService.getById(request.getUserId());
-
-		User user = this.modelMapperService.forRequest().map(userResponse, User.class);
-		corporateCustomer.setUser(user);
 		corporateCustomerRepository.save(corporateCustomer);
 
 		return new SuccessResult(messageService.getMessage(Messages.CorporateCustomer.corporateCustomerUpdateSuccess));

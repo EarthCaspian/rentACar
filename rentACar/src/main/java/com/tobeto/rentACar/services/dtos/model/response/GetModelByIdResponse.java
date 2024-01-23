@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetModelByIdResponse {
+    private int id;
 
     private String name;
 

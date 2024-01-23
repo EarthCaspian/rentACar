@@ -15,6 +15,8 @@ import com.tobeto.rentACar.services.dtos.car.request.UpdateCarRequest;
 import com.tobeto.rentACar.services.dtos.car.response.GetAllCarsResponse;
 import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
 import com.tobeto.rentACar.services.rules.CarBusinessRule;
+import com.tobeto.rentACar.services.rules.ColorBusinessRule;
+import com.tobeto.rentACar.services.rules.ModelBusinessRule;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -28,6 +30,8 @@ public class CarManager implements CarService {
     private final CarRepository carRepository;
     private final ModelMapperService modelMapperService;
     private final CarBusinessRule carBusinessRule;
+    private final ModelBusinessRule modelBusinessRule;
+    private final ColorBusinessRule colorBusinessRule;
     private MessageService messageService;
 
     @Override
@@ -54,6 +58,8 @@ public class CarManager implements CarService {
         request.setPlate(request.getPlate().replaceAll("[\\s-]", ""));
 
         carBusinessRule.existsCarByPlate(request.getPlate());
+        modelBusinessRule.existsModelById(request.getModelId());
+        colorBusinessRule.existsColorById(request.getColorId());
 
         Car car = this.modelMapperService.forRequest().map(request, Car.class);
 
@@ -69,6 +75,8 @@ public class CarManager implements CarService {
         request.setPlate(request.getPlate().replaceAll("[\\s-]", ""));
 
         carBusinessRule.existsCarByPlate(request.getPlate());
+        modelBusinessRule.existsModelById(request.getModelId());
+        colorBusinessRule.existsColorById(request.getColorId());
 
         Car car = this.modelMapperService.forRequest().map(request, Car.class);
 

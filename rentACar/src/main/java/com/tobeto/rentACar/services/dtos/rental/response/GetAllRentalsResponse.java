@@ -1,5 +1,7 @@
 package com.tobeto.rentACar.services.dtos.rental.response;
 
+import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
+import com.tobeto.rentACar.services.dtos.user.response.GetUserByIdResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class GetAllRentalsResponse {
 
+    private Integer id;
+
     private LocalDate startDate;
 
     private LocalDate endDate;
@@ -21,7 +25,7 @@ public class GetAllRentalsResponse {
 
     private double totalPrice;
 
-    private String carPlate;
+    private GetCarByIdResponse car;
 
-    private String userEmail;
+    private GetUserByIdResponse user;
 }

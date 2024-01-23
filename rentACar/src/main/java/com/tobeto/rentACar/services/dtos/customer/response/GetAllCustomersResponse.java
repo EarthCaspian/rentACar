@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetAllCustomersResponse {
+    private int id;
     private String firstName;
     private String lastName;
     private LocalDate birthdate;

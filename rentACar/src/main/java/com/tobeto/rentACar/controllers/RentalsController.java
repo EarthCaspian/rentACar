@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rentals")
+@RequestMapping("api/rentals")
 @AllArgsConstructor
 @CrossOrigin
 public class RentalsController {

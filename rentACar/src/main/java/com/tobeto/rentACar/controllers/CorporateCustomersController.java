@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/corporateCustomer")
+@RequestMapping("api/corporateCustomer")
 @AllArgsConstructor
 @CrossOrigin
 public class CorporateCustomersController {

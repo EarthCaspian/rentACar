@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/colors")
+@RequestMapping("api/colors")
 @AllArgsConstructor
 @CrossOrigin
 public class ColorsController {

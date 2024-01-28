@@ -9,6 +9,8 @@ public class Messages {
         public static String userDeleteSuccess = "User.userDeleteSuccess";
         public static String getUserNotFoundMessage ="User.getUserNotFoundMessage";
         public static String getUserMailAlreadyExistsMessage="User.getUserMailAlreadyExistsMessage";
+        public static String userRegisterSuccess="User.userRegisterSuccess";
+        public static String userLoginSuccess="User.userLoginSuccess";
     }
 
 

@@ -11,6 +11,8 @@ public class Messages {
         public static String getUserMailAlreadyExistsMessage="User.getUserMailAlreadyExistsMessage";
         public static String userRegisterSuccess="User.userRegisterSuccess";
         public static String userLoginSuccess="User.userLoginSuccess";
+        public static String userCredentialsIncorrectMessage="User.userCredentialsIncorrectMessage";
+
     }
 
 

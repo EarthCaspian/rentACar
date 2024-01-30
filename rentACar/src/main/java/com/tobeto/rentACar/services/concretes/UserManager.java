@@ -36,8 +36,6 @@ public class UserManager implements UserService {
     private final ModelMapperService modelMapperService;
     private final UserBusinessRule userBusinessRule;
     private MessageService messageService;
-    private final PasswordEncoder passwordEncoder;
-    private final RoleService roleService;
 
     @Override
     public Result add(AddUserRequest request) {
@@ -50,6 +48,12 @@ public class UserManager implements UserService {
 
         return new SuccessResult(messageService.getMessage(Messages.User.userAddSuccess));
 
+    }
+
+    @Override
+    public Result add(User user) {
+        userRepository.save(user);
+        return new SuccessResult(messageService.getMessage(Messages.User.userRegisterSuccess));
     }
 
     @Override
@@ -98,27 +102,7 @@ public class UserManager implements UserService {
 
     }
 
-    @Override
-    public Result register(RegisterUserRequest registerUserRequest) {
-        Set<Role> authorities = registerUserRequest.getRoles().stream()
-                .map(roleService::findByName)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
 
-        User user = User.builder()
-                .email(registerUserRequest.getEmail())
-                .authorities(authorities)
-                .password(passwordEncoder.encode(registerUserRequest.getPassword()))
-                .build();
-        userRepository.save(user);
-
-        return new SuccessResult(messageService.getMessage(Messages.User.userRegisterSuccess));
-    }
-
-    @Override
-    public Result login(LoginUserRequest request) {
-        return new SuccessResult(messageService.getMessage(Messages.User.userLoginSuccess));
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

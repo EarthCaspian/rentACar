@@ -35,7 +35,7 @@ public class CarsController {
         return carService.delete(request);
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public List<GetAllCarsResponse> getAll(){
        return carService.getAll();
     }

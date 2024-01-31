@@ -20,20 +20,6 @@ import java.util.List;
 public class UsersController {
 
     private final UserService userService;
-    private final AuthCService authCService;
-
-    @PostMapping("register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void register(@RequestBody RegisterUserRequest registerUserRequest) {
-        userService.register(registerUserRequest);
-    }
-
-    @PostMapping("login")
-    @ResponseStatus(HttpStatus.OK)
-    public String login(@RequestBody LoginUserRequest loginUserRequest) {
-        return authCService.login(loginUserRequest);
-
-    }
 
     @PostMapping("/add")
     public Result add(@RequestBody @Valid AddUserRequest request){

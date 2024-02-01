@@ -8,6 +8,8 @@ import com.tobeto.rentACar.services.dtos.role.RoleDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @AllArgsConstructor
@@ -27,6 +29,12 @@ public class RoleManager implements RoleService {
     @Override
     public void deleteRole(Integer id) {
         roleRepository.deleteById(id);
+    }
+
+    @Override
+    public List<RoleDto> getAll() {
+        List<Role> roles = roleRepository.findAll();
+        return roles.stream().map(role -> this.modelMapperService.forResponse().map(role, RoleDto.class)).toList();
     }
 
     @Override

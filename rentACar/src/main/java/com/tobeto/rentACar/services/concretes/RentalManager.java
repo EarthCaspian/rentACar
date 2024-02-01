@@ -36,7 +36,7 @@ public class RentalManager implements RentalService {
     @Override
     public Result add(AddRentalRequest request) {
 
-        for (RentalBusinessRule rule : rentalBusinessRules ) {
+        for (RentalBusinessRule rule : rentalBusinessRules) {
             rule.checkRentalPeriod(request.getStartDate(), request.getEndDate());
             rule.checkStartDate(request.getStartDate());
             rule.checkEndDate(request.getStartDate(), request.getEndDate());
@@ -50,9 +50,13 @@ public class RentalManager implements RentalService {
 
         // TotalPrice should be calculated and saved (user will not provide)
         Float dailyPrice = car.getDailyPrice();
-        long rentalDays = ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate()) + 1;
-        double totalPrice = dailyPrice * rentalDays;
-
+        double totalPrice;
+        if (request.getStartDate().isEqual(request.getEndDate())) {
+            totalPrice = dailyPrice;
+        } else {
+            long rentalDays = ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate());
+            totalPrice = dailyPrice * rentalDays;
+        }
 
         Rental rental = modelMapperService.forRequest().map(request, Rental.class);
         rental.setStartKilometer(currentCarKilometer);
@@ -60,7 +64,6 @@ public class RentalManager implements RentalService {
         rentalRepository.save(rental);
 
         return new SuccessResult(messageService.getMessage(Messages.Rental.rentalAddSuccess));
-
 
     }
 
@@ -103,7 +106,9 @@ public class RentalManager implements RentalService {
     @Override
     public List<GetAllRentalsResponse> getAll() {
         List<Rental> rentals = rentalRepository.findAll();
-        List<GetAllRentalsResponse> rentalsResponse = rentals.stream().map(rental -> this.modelMapperService.forResponse().map(rental, GetAllRentalsResponse.class)).toList();
+        List<GetAllRentalsResponse> rentalsResponse = rentals.stream()
+                .map(rental -> this.modelMapperService.forResponse()
+                        .map(rental, GetAllRentalsResponse.class)).toList();
         return rentalsResponse;
     }
 

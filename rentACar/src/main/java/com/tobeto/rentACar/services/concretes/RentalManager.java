@@ -18,7 +18,6 @@ import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
 import com.tobeto.rentACar.services.rules.RentalBusinessRule;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
@@ -107,7 +106,9 @@ public class RentalManager implements RentalService {
     @Override
     public List<GetAllRentalsResponse> getAll() {
         List<Rental> rentals = rentalRepository.findAll();
-        List<GetAllRentalsResponse> rentalsResponse = rentals.stream().map(rental -> this.modelMapperService.forResponse().map(rental, GetAllRentalsResponse.class)).toList();
+        List<GetAllRentalsResponse> rentalsResponse = rentals.stream()
+                .map(rental -> this.modelMapperService.forResponse()
+                        .map(rental, GetAllRentalsResponse.class)).toList();
         return rentalsResponse;
     }
 

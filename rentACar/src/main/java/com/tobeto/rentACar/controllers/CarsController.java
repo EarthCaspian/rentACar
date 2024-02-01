@@ -31,7 +31,7 @@ public class CarsController {
     }
 
     @DeleteMapping("/delete")
-    public Result delete(@RequestBody DeleteCarRequest request){
+    public Result delete(@RequestBody @Valid DeleteCarRequest request){
         return carService.delete(request);
     }
 

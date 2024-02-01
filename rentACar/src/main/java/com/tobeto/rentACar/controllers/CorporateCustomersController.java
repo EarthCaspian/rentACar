@@ -30,7 +30,7 @@ public class CorporateCustomersController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public Result delete(DeleteCorporateCustomerRequest request) {
+	public Result delete(@RequestBody @Valid DeleteCorporateCustomerRequest request) {
 		return corporateCustomerService.delete(request);
 	}
 

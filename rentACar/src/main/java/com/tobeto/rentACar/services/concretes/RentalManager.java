@@ -1,27 +1,27 @@
 package com.tobeto.rentACar.services.concretes;
 
+import com.tobeto.rentACar.core.exceptions.types.NotFoundException;
+import com.tobeto.rentACar.core.utilities.messages.MessageService;
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
-import com.tobeto.rentACar.entities.concretes.Car;
-import com.tobeto.rentACar.entities.concretes.Invoice;
+import com.tobeto.rentACar.core.utilities.results.Result;
+import com.tobeto.rentACar.core.utilities.results.SuccessResult;
 import com.tobeto.rentACar.entities.concretes.Rental;
 import com.tobeto.rentACar.repositories.RentalRepository;
 import com.tobeto.rentACar.services.abstracts.CarService;
 import com.tobeto.rentACar.services.abstracts.RentalService;
-import com.tobeto.rentACar.services.abstracts.UserService;
+import com.tobeto.rentACar.services.constants.Messages;
 import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
-import com.tobeto.rentACar.services.dtos.invoice.response.GetInvoiceByIdResponse;
 import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
+import com.tobeto.rentACar.services.rules.RentalBusinessRule;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -30,34 +30,18 @@ public class RentalManager implements RentalService {
     private final RentalRepository rentalRepository;
     private final ModelMapperService modelMapperService;
     private final CarService carService;
-    private final UserService userService;
+    private final List<RentalBusinessRule> rentalBusinessRules;
+    private MessageService messageService;
 
     @Override
-    public void add(AddRentalRequest request) {
+    public Result add(AddRentalRequest request) {
 
-        //The start date given when renting a car cannot be later than today.
-        if (request.getStartDate().isBefore(LocalDate.now())){
-            throw new RuntimeException("Start date cannot be in the past");
-        }
-
-        //The end date given when renting a car cannot be later than the start date.
-        if (request.getEndDate().isBefore(request.getStartDate())){
-            throw new RuntimeException("End date cannot be before the start date");
-        }
-
-        //There must be a Car in the system with the CarId provided when renting a car.
-        if (!carService.existsCarById(request.getCarId())) {
-            throw new RuntimeException("There is no car with this id");
-        }
-
-        //There must be a User in the system with the UserId given when renting a car.
-        if(!userService.existsUserById(request.getUserId())){
-            throw new RuntimeException("There is no user with this id");
-        }
-
-        //One vehicle can be rented for a maximum of 25 days.
-        if( ChronoUnit.DAYS.between(request.getStartDate(),request.getEndDate())>25){
-            throw new RuntimeException("The rental period cannot exceed 25 days");
+        for (RentalBusinessRule rule : rentalBusinessRules ) {
+            rule.checkRentalPeriod(request.getStartDate(), request.getEndDate());
+            rule.checkStartDate(request.getStartDate());
+            rule.checkEndDate(request.getStartDate(), request.getEndDate());
+            rule.existsUserById(request.getUserId());
+            rule.existsCarById(request.getCarId());
         }
 
         //When renting, the StartKilometer should be taken from the Kilometer field of the vehicle to be rented.
@@ -65,7 +49,7 @@ public class RentalManager implements RentalService {
         Long currentCarKilometer = car.getKilometer();
 
         // TotalPrice should be calculated and saved (user will not provide)
-        double dailyPrice = car.getDailyPrice();
+        Float dailyPrice = car.getDailyPrice();
         long rentalDays = ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate()) + 1;
         double totalPrice = dailyPrice * rentalDays;
 
@@ -74,10 +58,23 @@ public class RentalManager implements RentalService {
         rental.setStartKilometer(currentCarKilometer);
         rental.setTotalPrice(totalPrice);
         rentalRepository.save(rental);
+
+        return new SuccessResult(messageService.getMessage(Messages.Rental.rentalAddSuccess));
+
+
     }
 
     @Override
-    public void update(UpdateRentalRequest request) {
+    public Result update(UpdateRentalRequest request) {
+
+        for (RentalBusinessRule rule : rentalBusinessRules ) {
+            rule.existsRentalById(request.getId());
+            rule.checkRentalPeriod(request.getStartDate(), request.getEndDate());
+            rule.checkStartDate(request.getStartDate());
+            rule.checkEndDate(request.getStartDate(), request.getEndDate());
+            rule.existsUserById(request.getUserId());
+            rule.existsCarById(request.getCarId());
+        }
 
         //Mapping
         Rental rental = modelMapperService.forRequest().map(request, Rental.class);
@@ -85,17 +82,22 @@ public class RentalManager implements RentalService {
         //Updating
         rentalRepository.save(rental);
 
+        return new SuccessResult(messageService.getMessage(Messages.Rental.rentalUpdateSuccess));
+
     }
 
     @Override
-    public void delete(DeleteRentalRequest request) {
+    public Result delete(DeleteRentalRequest request) {
 
-        //Checking whether the relevant rental exists or not
-        rentalRepository.findById(request.getId()).orElseThrow(() ->
-                new NoSuchElementException("Rental not found with ID: " + request.getId()));
+        RentalBusinessRule rule = rentalBusinessRules.get(0);
+
+        rule.existsRentalById(request.getId());
 
         //Deleting
         rentalRepository.deleteById(request.getId());
+
+        return new SuccessResult(messageService.getMessage(Messages.Rental.rentalDeleteSuccess));
+
     }
 
     @Override
@@ -108,15 +110,12 @@ public class RentalManager implements RentalService {
     @Override
     public GetRentalByIdResponse getById(int id) {
 
-       //Checking whether the relevant rental exists or not
         Rental rental = rentalRepository.findById(id).orElseThrow(() ->
-                new NoSuchElementException("Rental not found with ID: " + id));
+                new NotFoundException(messageService.getMessage(Messages.Rental.getRentalNotFoundMessage)));
 
-        //Mapping
-        return modelMapperService.forResponse().map(rental, GetRentalByIdResponse.class);
-
-        /*GetRentalByIdResponse response = modelMapperService.forResponse().map(rentalRepository.findById(id), GetRentalByIdResponse.class);
-        return response;*/
+        //Mapping the object to the response object
+        return this.modelMapperService.forResponse()
+                .map(rental, GetRentalByIdResponse.class);
     }
 
 

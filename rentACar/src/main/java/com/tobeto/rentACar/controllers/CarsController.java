@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.controllers;
 
+import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.abstracts.CarService;
 import com.tobeto.rentACar.services.dtos.car.request.AddCarRequest;
 import com.tobeto.rentACar.services.dtos.car.request.DeleteCarRequest;
@@ -13,28 +14,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cars")
+@RequestMapping("api/cars")
 @AllArgsConstructor
 @CrossOrigin
 public class CarsController {
     private final CarService carService;
 
     @PostMapping("/add")
-    public void add(@RequestBody @Valid AddCarRequest request){
-        carService.add(request);
+    public Result add(@RequestBody @Valid AddCarRequest request){
+        return carService.add(request);
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody @Valid UpdateCarRequest request){
-        carService.update(request);
+    public Result update(@RequestBody @Valid UpdateCarRequest request){
+       return carService.update(request);
     }
 
     @DeleteMapping("/delete")
-    public void delete(@RequestBody DeleteCarRequest request){
-        carService.delete(request);
+    public Result delete(@RequestBody DeleteCarRequest request){
+        return carService.delete(request);
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public List<GetAllCarsResponse> getAll(){
        return carService.getAll();
     }

@@ -1,19 +1,24 @@
 package com.tobeto.rentACar.services.concretes;
 
+import com.tobeto.rentACar.core.exceptions.types.NotFoundException;
+import com.tobeto.rentACar.core.utilities.messages.MessageService;
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
+import com.tobeto.rentACar.core.utilities.results.Result;
+import com.tobeto.rentACar.core.utilities.results.SuccessResult;
 import com.tobeto.rentACar.entities.concretes.Invoice;
 import com.tobeto.rentACar.repositories.InvoiceRepository;
 import com.tobeto.rentACar.services.abstracts.InvoiceService;
+import com.tobeto.rentACar.services.constants.Messages;
 import com.tobeto.rentACar.services.dtos.invoice.request.AddInvoiceRequest;
 import com.tobeto.rentACar.services.dtos.invoice.request.DeleteInvoiceRequest;
 import com.tobeto.rentACar.services.dtos.invoice.request.UpdateInvoiceRequest;
 import com.tobeto.rentACar.services.dtos.invoice.response.GetAllInvoicesResponse;
 import com.tobeto.rentACar.services.dtos.invoice.response.GetInvoiceByIdResponse;
+import com.tobeto.rentACar.services.rules.InvoiceBusinessRule;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -21,36 +26,45 @@ public class InvoiceManager implements InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
     private final ModelMapperService modelMapperService;
+    private final InvoiceBusinessRule invoiceBusinessRule;
+    private MessageService messageService;
 
     @Override
-    public void add(AddInvoiceRequest request) {
+    public Result add(AddInvoiceRequest request) {
 
         //Mapping
         Invoice invoice = modelMapperService.forRequest().map(request, Invoice.class);
-
+        invoice.setId(null);
         //Saving
         invoiceRepository.save(invoice);
+
+        return new SuccessResult(messageService.getMessage(Messages.Invoice.invoiceAddSuccess));
+
     }
 
     @Override
-    public void update(UpdateInvoiceRequest request) {
+    public Result update(UpdateInvoiceRequest request) {
 
         //Mapping
         Invoice invoice = modelMapperService.forRequest().map(request, Invoice.class);
 
         //Updating
         invoiceRepository.save(invoice);
+
+        return new SuccessResult(messageService.getMessage(Messages.Invoice.invoiceUpdateSuccess));
+
     }
 
     @Override
-    public void delete(DeleteInvoiceRequest request) {
+    public Result delete(DeleteInvoiceRequest request) {
 
-        //Checking whether the relevant invoice exists or not
-        invoiceRepository.findById(request.getId()).orElseThrow(() ->
-                new NoSuchElementException("Invoice not found with ID: " + request.getId()));
+        invoiceBusinessRule.existsInvoiceById(request.getId());
 
         //Deleting
         invoiceRepository.deleteById(request.getId());
+
+        return new SuccessResult(messageService.getMessage(Messages.Invoice.invoiceDeleteSuccess));
+
     }
 
     @Override
@@ -64,11 +78,11 @@ public class InvoiceManager implements InvoiceService {
     @Override
     public GetInvoiceByIdResponse getById(int id) {
 
-        //Checking whether the relevant invoice exists or not
         Invoice invoice = invoiceRepository.findById(id).orElseThrow(() ->
-                new NoSuchElementException("Invoice not found with ID: " + id));
+                new NotFoundException(messageService.getMessage(Messages.Invoice.getInvoiceNotFoundMessage)));
 
-        //Mapping
-        return modelMapperService.forResponse().map(invoice, GetInvoiceByIdResponse.class);
+        //Mapping the object to the response object
+        return this.modelMapperService.forResponse()
+                .map(invoice, GetInvoiceByIdResponse.class);
     }
 }

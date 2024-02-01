@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetAllUsersResponse {
+    private Integer id;
 
     private String email;
 

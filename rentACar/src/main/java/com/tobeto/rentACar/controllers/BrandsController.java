@@ -1,8 +1,10 @@
 package com.tobeto.rentACar.controllers;
 
 
+import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.abstracts.BrandService;
 import com.tobeto.rentACar.services.dtos.brand.request.AddBrandRequest;
+import com.tobeto.rentACar.services.dtos.brand.request.DeleteBrandRequest;
 import com.tobeto.rentACar.services.dtos.brand.request.UpdateBrandRequest;
 import com.tobeto.rentACar.services.dtos.brand.response.GetAllBrandsResponse;
 import com.tobeto.rentACar.services.dtos.brand.response.GetBrandByIdResponse;
@@ -37,19 +39,19 @@ public class BrandsController {
     }
 
     @DeleteMapping("/delete")
-    public void delete(int id) {
-        brandService.delete(id);
+    public Result delete(@RequestBody @Valid DeleteBrandRequest request) {
+        return brandService.delete(request);
     }
 
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void add(@RequestBody @Valid AddBrandRequest request) {
-        brandService.add(request);
+    public Result add(@RequestBody @Valid AddBrandRequest request) {
+       return brandService.add(request);
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody @Valid UpdateBrandRequest request) {
-        brandService.update(request);
+    public Result update(@RequestBody @Valid UpdateBrandRequest request) {
+       return brandService.update(request);
     }
 
 }

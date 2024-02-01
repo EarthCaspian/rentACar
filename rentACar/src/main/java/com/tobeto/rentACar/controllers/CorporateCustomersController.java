@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.controllers;
 
+import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.abstracts.CorporateCustomerService;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.AddCorporateCustomerRequest;
 import com.tobeto.rentACar.services.dtos.corporateCustomer.request.DeleteCorporateCustomerRequest;
@@ -13,24 +14,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/corporateCustomer")
+@RequestMapping("api/corporateCustomer")
 @AllArgsConstructor
 @CrossOrigin
-public class CorporateCustomerController {
+public class CorporateCustomersController {
 	private final CorporateCustomerService corporateCustomerService;
 	@PostMapping("/add")
-	void add(@RequestBody @Valid AddCorporateCustomerRequest request){
-		corporateCustomerService.add(request);
+	public Result add(@RequestBody @Valid AddCorporateCustomerRequest request){
+		return corporateCustomerService.add(request);
 	}
 
 	@PutMapping("/update")
-	void update(@RequestBody @Valid UpdateCorporateCustomerRequest request) {
-		corporateCustomerService.update(request);
+	public Result update(@RequestBody @Valid UpdateCorporateCustomerRequest request) {
+		return corporateCustomerService.update(request);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	void delete(DeleteCorporateCustomerRequest request) {
-		corporateCustomerService.delete(request);
+	public Result delete(DeleteCorporateCustomerRequest request) {
+		return corporateCustomerService.delete(request);
 	}
 
 	@GetMapping("/getAll")

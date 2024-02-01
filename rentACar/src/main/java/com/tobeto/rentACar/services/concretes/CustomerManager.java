@@ -1,27 +1,34 @@
 package com.tobeto.rentACar.services.concretes;
 
+import com.tobeto.rentACar.core.exceptions.types.NotFoundException;
+import com.tobeto.rentACar.core.utilities.messages.MessageService;
 import com.tobeto.rentACar.core.utilities.mappers.ModelMapperService;
+import com.tobeto.rentACar.core.utilities.results.Result;
+import com.tobeto.rentACar.core.utilities.results.SuccessResult;
 import com.tobeto.rentACar.entities.concretes.Customer;
 import com.tobeto.rentACar.repositories.CustomerRepository;
 import com.tobeto.rentACar.services.abstracts.CustomerService;
+import com.tobeto.rentACar.services.constants.Messages;
 import com.tobeto.rentACar.services.dtos.customer.request.AddCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customer.request.DeleteCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customer.request.UpdateCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customer.response.GetAllCustomersResponse;
 import com.tobeto.rentACar.services.dtos.customer.response.GetCustomerByIdResponse;
+import com.tobeto.rentACar.services.rules.CustomerBusinessRule;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
 public class CustomerManager implements CustomerService {
     private final CustomerRepository customerRepository;
     private final ModelMapperService modelMapperService;
+    private final CustomerBusinessRule customerBusinessRule;
+    private MessageService messageService;
     @Override
-    public void add(AddCustomerRequest request) {
+    public Result add(AddCustomerRequest request) {
 
         //Converting uppercase characters to lowercase
         request.setFirstName(request.getFirstName().toLowerCase());
@@ -31,18 +38,16 @@ public class CustomerManager implements CustomerService {
         Customer customer = modelMapperService.forRequest().map(request, Customer.class);
 
         //Business Rules
-        //Customer eligibility is restricted to individuals aged 18 years and above.
-        if(customer.getAge(customer.getBirthdate())< 18){
-            throw new RuntimeException("Customer eligibility is restricted to individuals aged 18 years and above!");
-        }
+        customerBusinessRule.checkCustomerAge(customer);
 
         //Saving
         customerRepository.save(customer);
+        return new SuccessResult(messageService.getMessage(Messages.Customer.customerAddSuccess));
 
     }
 
     @Override
-    public void update(UpdateCustomerRequest request) {
+    public Result update(UpdateCustomerRequest request) {
 
         //Converting uppercase characters to lowercase
         request.setFirstName(request.getFirstName().toLowerCase());
@@ -52,25 +57,24 @@ public class CustomerManager implements CustomerService {
         Customer customer = modelMapperService.forRequest().map(request, Customer.class);
 
         //Business Rules
-        //Customer eligibility is restricted to individuals aged 18 years and above.
-        if(customer.getAge(customer.getBirthdate())< 18){
-            throw new RuntimeException("Customer eligibility is restricted to individuals aged 18 years and above!");
-        }
+        customerBusinessRule.checkCustomerAge(customer);
 
         //Updating
         customerRepository.save(customer);
 
+        return new SuccessResult(messageService.getMessage(Messages.Customer.customerUpdateSuccess));
+
     }
 
     @Override
-    public void delete(DeleteCustomerRequest request) {
+    public Result delete(DeleteCustomerRequest request) {
 
-        //Checking whether the relevant customer exists or not
-        customerRepository.findById(request.getId()).orElseThrow(() ->
-                new NoSuchElementException("User not found with ID: " + request.getId()));
+        customerBusinessRule.existsCustomerById(request.getId());
 
         //Deleting
         customerRepository.deleteById(request.getId());
+
+        return new SuccessResult(messageService.getMessage(Messages.Customer.customerDeleteSuccess));
 
     }
 
@@ -88,12 +92,12 @@ public class CustomerManager implements CustomerService {
     @Override
     public GetCustomerByIdResponse getById(int id) {
 
-        //Checking whether the relevant user exists or not
         Customer customer = customerRepository.findById(id).orElseThrow(() ->
-                new NoSuchElementException("User not found with ID: " + id));
+                new NotFoundException(messageService.getMessage(Messages.Customer.getCustomerNotFoundMessage)));
 
-        //Mapping
-        return modelMapperService.forResponse().map(customer, GetCustomerByIdResponse.class);
+        //Mapping the object to the response object
+        return this.modelMapperService.forResponse()
+                .map(customer, GetCustomerByIdResponse.class);
 
     }
 

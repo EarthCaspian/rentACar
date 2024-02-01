@@ -1,13 +1,14 @@
 package com.tobeto.rentACar.controllers;
 
+import com.tobeto.rentACar.core.utilities.results.Result;
+import com.tobeto.rentACar.services.abstracts.AuthCService;
 import com.tobeto.rentACar.services.abstracts.UserService;
-import com.tobeto.rentACar.services.dtos.user.request.AddUserRequest;
-import com.tobeto.rentACar.services.dtos.user.request.DeleteUserRequest;
-import com.tobeto.rentACar.services.dtos.user.request.UpdateUserRequest;
+import com.tobeto.rentACar.services.dtos.user.request.*;
 import com.tobeto.rentACar.services.dtos.user.response.GetAllUsersResponse;
 import com.tobeto.rentACar.services.dtos.user.response.GetUserByIdResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,18 +22,18 @@ public class UsersController {
     private final UserService userService;
 
     @PostMapping("/add")
-    public void add(@RequestBody @Valid AddUserRequest request){
-        userService.add(request);
+    public Result add(@RequestBody @Valid AddUserRequest request){
+        return userService.add(request);
     }
 
     @PutMapping("/update")
-    public void update(@RequestBody @Valid UpdateUserRequest request){
-        userService.update(request);
+    public Result update(@RequestBody @Valid UpdateUserRequest request){
+        return userService.update(request);
     }
 
     @DeleteMapping("/delete")
-    public void delete(@RequestBody @Valid DeleteUserRequest request){
-        userService.delete(request);
+    public Result delete(@RequestBody @Valid DeleteUserRequest request){
+        return userService.delete(request);
     }
 
     @GetMapping("/getAll")

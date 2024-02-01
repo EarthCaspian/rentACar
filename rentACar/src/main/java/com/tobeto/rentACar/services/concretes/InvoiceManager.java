@@ -71,7 +71,9 @@ public class InvoiceManager implements InvoiceService {
     public List<GetAllInvoicesResponse> getAll() {
 
         List<Invoice> invoices = invoiceRepository.findAll();
-        List<GetAllInvoicesResponse> invoicesResponses = invoices.stream().map(invoice -> this.modelMapperService.forResponse().map(invoice, GetAllInvoicesResponse.class)).toList();
+        List<GetAllInvoicesResponse> invoicesResponses = invoices.stream()
+                .map(invoice -> this.modelMapperService.forResponse()
+                        .map(invoice, GetAllInvoicesResponse.class)).toList();
         return invoicesResponses;
     }
 

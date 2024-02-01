@@ -18,6 +18,7 @@ import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
 import com.tobeto.rentACar.services.rules.RentalBusinessRule;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
@@ -25,6 +26,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class RentalManager implements RentalService {
 
     private final RentalRepository rentalRepository;

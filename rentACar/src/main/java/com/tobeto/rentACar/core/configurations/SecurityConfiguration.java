@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(x -> x
                         .requestMatchers(WHITE_LIST_URLS).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/cars/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/rentals/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

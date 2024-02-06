@@ -17,7 +17,7 @@ public class AddUserRequest {
     @NotBlank
     @Length(max = 40, message = "The email cannot exceed 40 characters!")
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
-            message = "Geçerli bir e-posta adresi giriniz.")
+            message = "Please enter a valid email address.")
     private String email;
 
     @NotBlank

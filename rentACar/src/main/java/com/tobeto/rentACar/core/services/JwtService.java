@@ -24,15 +24,25 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long EXPIRATION;
 
-    public String generateToken(String userName) {
+    public String generateToken(String userName, Integer userId) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userName);
+        claims.put("userId", userId);
+        return createToken(claims, userName, userId);
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
         String username = extractUser(token);
         Date expirationDate = extractExpiration(token);
         return userDetails.getUsername().equals(username) && !expirationDate.before(new Date());
+    }
+    public Integer extractUserId(String token) {
+        Claims claims = Jwts
+                .parser()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("userId", Integer.class);
     }
 
     private Date extractExpiration(String token) {
@@ -54,10 +64,12 @@ public class JwtService {
         return claims.getSubject();
     }
 
-    private String createToken(Map<String, Object> claims, String userName) {
+
+    private String createToken(Map<String, Object> claims, String userName, Integer userId) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userName)
+                .claim("userId", userId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)

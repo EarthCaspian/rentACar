@@ -71,17 +71,13 @@ public class UserManager implements UserService {
     }
 
     public GetUserByNameResponse updateProfile(String email, UpdateProfileRequest request) {
-        // E-posta adresine göre kullanıcıyı bul
         User user = userRepository.findByEmail(email).orElseThrow(() ->
                 new NotFoundException(messageService.getMessage(Messages.User.getUserNotFoundMessage)));
 
-        // ModelMapper kullanarak güncelleme işlemini gerçekleştir
         modelMapperService.forRequest().map(request, user);
 
-        // Değişiklikleri veritabanına kaydet
         userRepository.save(user);
 
-        // Güncelleme işleminin başarılı olduğunu belirten bir yanıt oluştur
         return new GetUserByNameResponse(user.getEmail(), user.getPassword());
     }
 

@@ -19,7 +19,6 @@ public interface UserService extends UserDetailsService {
     List<GetAllUsersResponse> getAll();
     GetUserByIdResponse getById(int id);
     GetUserByNameResponse getByName(String email);
-
     GetUserByNameResponse updateProfile(String email, UpdateProfileRequest request);
 
 

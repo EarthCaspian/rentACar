@@ -2,7 +2,6 @@ package com.tobeto.rentACar.controllers;
 
 import com.tobeto.rentACar.core.services.JwtService;
 import com.tobeto.rentACar.core.utilities.results.Result;
-import com.tobeto.rentACar.services.abstracts.AuthCService;
 import com.tobeto.rentACar.services.abstracts.UserService;
 import com.tobeto.rentACar.services.dtos.user.request.*;
 import com.tobeto.rentACar.services.dtos.user.response.GetAllUsersResponse;
@@ -11,7 +10,6 @@ import com.tobeto.rentACar.services.dtos.user.response.GetUserByNameResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,18 +64,9 @@ public class UsersController {
         String token = tokenWithPrefix.replace("Bearer ", "");
         String username = jwtService.extractUser(token);
 
-
-        //UpdateProfileRequest filteredRequest = new UpdateProfileRequest();
         request.setEmail(request.getEmail());
+        request.setPassword(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt()));
 
-        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
-            String newPassword = request.getPassword(); // Yeni şifreyi al
-            String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt()); // Yeni şifreyi hashle
-            request.setPassword(hashedPassword);
-        }
-
-
-        // Kullanıcı adına göre güncelleme yapılması için servis çağrısı
         return userService.updateProfile(username, request);
     }
 

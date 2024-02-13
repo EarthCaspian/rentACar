@@ -15,6 +15,7 @@ import com.tobeto.rentACar.services.dtos.authentication.AuthCResult;
 import com.tobeto.rentACar.services.dtos.authentication.LoginResponse;
 import com.tobeto.rentACar.services.dtos.user.request.LoginUserRequest;
 import com.tobeto.rentACar.services.dtos.user.request.RegisterUserRequest;
+import com.tobeto.rentACar.services.dtos.user.response.GetUserByNameResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -58,7 +59,6 @@ public class AuthCManager implements AuthCService {
 
     @Override
     public Result login(LoginUserRequest loginUserRequest) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginUserRequest.getEmail(),
@@ -66,11 +66,18 @@ public class AuthCManager implements AuthCService {
                 )
         );
 
-        if (authentication.isAuthenticated()){
-            String token = jwtService.generateToken(loginUserRequest.getEmail());
-            LoginResponse loginResponse = new LoginResponse();
-            loginResponse.setToken(token);
-            return new AuthCResult(true, messageService.getMessage(Messages.User.userLoginSuccess),loginResponse );
+        if (authentication.isAuthenticated()) {
+
+            GetUserByNameResponse userResponse = userService.getByName(loginUserRequest.getEmail());
+
+            if (userResponse != null) {
+                String token = jwtService.generateToken(loginUserRequest.getEmail(), userResponse);
+                LoginResponse loginResponse = new LoginResponse();
+                loginResponse.setToken(token);
+                return new AuthCResult(true, messageService.getMessage(Messages.User.userLoginSuccess), loginResponse);
+            } else {
+                return new ErrorResult(messageService.getMessage(Messages.User.getUserNotFoundMessage));
+            }
         }
 
         return new ErrorResult(messageService.getMessage(Messages.User.userCredentialsIncorrectMessage));

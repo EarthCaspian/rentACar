@@ -78,7 +78,7 @@ public class UserManager implements UserService {
 
         userRepository.save(user);
 
-        return new GetUserByNameResponse(user.getEmail(), user.getPassword());
+        return new GetUserByNameResponse(user.getId(), user.getEmail(), user.getPassword());
     }
 
     @Override

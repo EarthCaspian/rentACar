@@ -16,12 +16,14 @@ import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
+import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByUserIdResponse;
 import com.tobeto.rentACar.services.rules.RentalBusinessRule;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -121,6 +123,20 @@ public class RentalManager implements RentalService {
         //Mapping the object to the response object
         return this.modelMapperService.forResponse()
                 .map(rental, GetRentalByIdResponse.class);
+    }
+
+    @Override
+    public List<GetRentalByUserIdResponse> getByUserId(int userId) {
+        List<Rental> rentals = rentalRepository.findByUserId(userId);
+
+        if (rentals.isEmpty()) {
+            throw new NotFoundException(messageService.getMessage(Messages.Rental.getRentalNotFoundMessage));
+        }
+
+        List<GetRentalByUserIdResponse> rentalsByUserId = rentals.stream()
+                .map(rental -> this.modelMapperService.forResponse()
+                        .map(rental, GetRentalByUserIdResponse.class)).toList();
+        return rentalsByUserId;
     }
 
 

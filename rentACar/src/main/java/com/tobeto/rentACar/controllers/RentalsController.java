@@ -8,6 +8,7 @@ import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
+import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByUserIdResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -50,10 +51,12 @@ public class RentalsController {
     }
 
     @GetMapping("/getRentalsByUserId")
-    public List<GetRentalByUserIdRequest> getRentals(HttpServletRequest request) {
+    public List<GetRentalByUserIdResponse> getRentals(HttpServletRequest request) {
+
         String tokenWithPrefix = request.getHeader("Authorization");
         String token = tokenWithPrefix.replace("Bearer ", "");
-        String username = jwtService.extractUser(token);
-        return rentalService.getRentalsByUsername(username);
+        int userID = jwtService.extractUserId(token);
+
+        return rentalService.getByUserId(userID);
     }
 }

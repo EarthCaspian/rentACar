@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RentalRepository extends JpaRepository<Rental, Integer> {
-
+    List<Rental> findByUserId(int userId);
 }

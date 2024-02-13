@@ -9,8 +9,12 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetRentalByUserIdRequest {
+public class GetRentalByUserIdResponse {
+    private int id;
     private LocalDate startDate;
-    private LocalDate returnDate;
+    private LocalDate endDate;
     private double totalPrice;
+    private String carPlate;
+    private String username;
+    private String userId;
 }

@@ -15,6 +15,7 @@ import com.tobeto.rentACar.services.constants.Messages;
 import com.tobeto.rentACar.services.dtos.user.request.*;
 import com.tobeto.rentACar.services.dtos.user.response.GetAllUsersResponse;
 import com.tobeto.rentACar.services.dtos.user.response.GetUserByIdResponse;
+import com.tobeto.rentACar.services.dtos.user.response.GetUserByNameResponse;
 import com.tobeto.rentACar.services.rules.UserBusinessRule;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -69,6 +70,17 @@ public class UserManager implements UserService {
         return new SuccessDataResult(messageService.getMessage(Messages.User.userUpdateSuccess));
     }
 
+    public GetUserByNameResponse updateProfile(String email, UpdateProfileRequest request) {
+        User user = userRepository.findByEmail(email).orElseThrow(() ->
+                new NotFoundException(messageService.getMessage(Messages.User.getUserNotFoundMessage)));
+
+        modelMapperService.forRequest().map(request, user);
+
+        userRepository.save(user);
+
+        return new GetUserByNameResponse(user.getId(), user.getEmail(), user.getPassword());
+    }
+
     @Override
     public Result delete(DeleteUserRequest request) {
 
@@ -102,6 +114,15 @@ public class UserManager implements UserService {
 
     }
 
+    @Override
+    public GetUserByNameResponse getByName(String email) {
+
+        User user = userRepository.findByEmail(email).orElseThrow(() ->
+                new NotFoundException(messageService.getMessage(Messages.User.getUserNotFoundMessage)));
+
+        return modelMapperService.forResponse()
+                .map(user, GetUserByNameResponse.class);
+    }
 
 
     @Override

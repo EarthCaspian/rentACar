@@ -6,16 +6,16 @@ import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
+import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByUserIdResponse;
 
 import java.util.List;
 
 
 public interface RentalService {
-
     Result add(AddRentalRequest request);
     Result update(UpdateRentalRequest request);
     Result delete(DeleteRentalRequest request);
     List<GetAllRentalsResponse> getAll();
     GetRentalByIdResponse getById(int id);
-
+    List<GetRentalByUserIdResponse> getByUserId(int userId);
 }

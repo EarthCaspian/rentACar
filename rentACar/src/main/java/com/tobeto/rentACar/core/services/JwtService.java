@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.core.services;
 
+import com.tobeto.rentACar.services.dtos.user.response.GetUserByNameResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -24,9 +25,10 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long EXPIRATION;
 
-    public String generateToken(String userName) {
+    public String generateToken(String email, GetUserByNameResponse userResponse) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userName);
+        claims.put("id", userResponse.getId());
+        return createToken(claims, email, userResponse.getId());
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
@@ -34,7 +36,15 @@ public class JwtService {
         Date expirationDate = extractExpiration(token);
         return userDetails.getUsername().equals(username) && !expirationDate.before(new Date());
     }
-
+    public Integer extractUserId(String token) {
+        Claims claims = Jwts
+                .parser()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("id", Integer.class);
+    }
     private Date extractExpiration(String token) {
         Claims claims = Jwts
                 .parser()
@@ -54,10 +64,12 @@ public class JwtService {
         return claims.getSubject();
     }
 
-    private String createToken(Map<String, Object> claims, String userName) {
+
+    private String createToken(Map<String, Object> claims, String userName, int id) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userName)
+                .claim("id", id)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)

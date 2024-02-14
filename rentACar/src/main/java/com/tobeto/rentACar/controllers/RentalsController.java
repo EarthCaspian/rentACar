@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.controllers;
 
+import com.tobeto.rentACar.core.services.JwtService;
 import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.abstracts.RentalService;
 import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
@@ -8,7 +9,12 @@ import com.tobeto.rentACar.services.dtos.rental.request.FindRentalIdRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
+
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalIdResponse;
+
+import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByUserIdResponse;
+import jakarta.servlet.http.HttpServletRequest;
+
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,6 +30,7 @@ import java.util.List;
 public class RentalsController {
 
     private final RentalService rentalService;
+    private final JwtService jwtService;
 
     @PostMapping("/add")
     public Result add(@RequestBody @Valid AddRentalRequest request){
@@ -50,6 +57,7 @@ public class RentalsController {
         return rentalService.getById(id);
     }
 
+
     @GetMapping("/getRentalId")
     public GetRentalIdResponse getRentalId(
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String startDate,
@@ -64,6 +72,17 @@ public class RentalsController {
         FindRentalIdRequest request = new FindRentalIdRequest(parsedStartDate, parsedEndDate, carId, userId);
 
         return rentalService.getRentalId(request);
+    }
+
+
+    @GetMapping("/getRentalsByUserId")
+    public List<GetRentalByUserIdResponse> getRentals(HttpServletRequest request) {
+
+        String tokenWithPrefix = request.getHeader("Authorization");
+        String token = tokenWithPrefix.replace("Bearer ", "");
+        int userID = jwtService.extractUserId(token);
+
+        return rentalService.getByUserId(userID);
     }
 
 }

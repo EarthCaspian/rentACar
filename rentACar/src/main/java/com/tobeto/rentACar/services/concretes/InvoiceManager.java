@@ -35,6 +35,7 @@ public class InvoiceManager implements InvoiceService {
         //Mapping
         Invoice invoice = modelMapperService.forRequest().map(request, Invoice.class);
         invoice.setId(null);
+
         //Saving
         invoiceRepository.save(invoice);
 

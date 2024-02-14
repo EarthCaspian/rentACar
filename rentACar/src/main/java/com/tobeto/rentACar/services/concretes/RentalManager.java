@@ -13,15 +13,18 @@ import com.tobeto.rentACar.services.constants.Messages;
 import com.tobeto.rentACar.services.dtos.car.response.GetCarByIdResponse;
 import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
+import com.tobeto.rentACar.services.dtos.rental.request.FindRentalIdRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
 import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
+import com.tobeto.rentACar.services.dtos.rental.response.GetRentalIdResponse;
 import com.tobeto.rentACar.services.rules.RentalBusinessRule;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -123,5 +126,18 @@ public class RentalManager implements RentalService {
                 .map(rental, GetRentalByIdResponse.class);
     }
 
+    @Override
+    public GetRentalIdResponse getRentalId(FindRentalIdRequest request) {
+        List<Rental> rentals = rentalRepository.findAll();
+        return rentals.stream()
+                .filter(rental -> rental.getStartDate().isEqual(request.getStartDate()) &&
+                        rental.getEndDate().isEqual(request.getEndDate()) &&
+                        rental.getCar().getId() == request.getCarId() &&
+                        rental.getUser().getId() == request.getUserId())
+                .map(rental -> this.modelMapperService.forResponse()
+                        .map(rental, GetRentalIdResponse.class))
+                .reduce((first, second) -> second) // Get the last element
+                .orElse(null);
+    }
 
 }

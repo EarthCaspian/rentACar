@@ -36,6 +36,7 @@ public class ContactController {
                 "    <p><strong>Message:</strong> " + request.getMessage() + "</p>\n" +
                 "</body>\n" +
                 "</html>";
+
         mailService.sendEmail(to, subject, mailContent);
     }
 }

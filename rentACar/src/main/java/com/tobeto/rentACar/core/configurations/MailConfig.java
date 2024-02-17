@@ -23,7 +23,6 @@ public class MailConfig {
         mailSender.setPort(587);
         mailSender.setUsername(domain);
         mailSender.setPassword(apiKey);
-        mailSender.setProtocol("smtp");
 
         return mailSender;
     }

@@ -52,6 +52,12 @@ public class SecurityConfiguration {
                         .requestMatchers(WHITE_LIST_URLS).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/cars/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/rentals/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/rentals/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/models/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/colors/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/customers/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/invoices/**").permitAll()
+
                         .anyRequest().authenticated())
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

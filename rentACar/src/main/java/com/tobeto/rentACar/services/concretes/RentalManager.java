@@ -15,12 +15,8 @@ import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.FindRentalIdRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
-import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
-import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
+import com.tobeto.rentACar.services.dtos.rental.response.*;
 
-import com.tobeto.rentACar.services.dtos.rental.response.GetRentalIdResponse;
-
-import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByUserIdResponse;
 
 import com.tobeto.rentACar.services.rules.RentalBusinessRule;
 import lombok.AllArgsConstructor;
@@ -45,7 +41,7 @@ public class RentalManager implements RentalService {
     private MessageService messageService;
 
     @Override
-    public Result add(AddRentalRequest request) {
+    public AddRentalResponse add(AddRentalRequest request) {
 
         for (RentalBusinessRule rule : rentalBusinessRules) {
             rule.checkRentalPeriod(request.getStartDate(), request.getEndDate());
@@ -72,9 +68,14 @@ public class RentalManager implements RentalService {
         Rental rental = modelMapperService.forRequest().map(request, Rental.class);
         rental.setStartKilometer(currentCarKilometer);
         rental.setTotalPrice(totalPrice);
-        rentalRepository.save(rental);
+        Rental savedRental = rentalRepository.save(rental);
+        Result result = new SuccessResult(messageService.getMessage(Messages.Rental.rentalAddSuccess));
 
-        return new SuccessResult(messageService.getMessage(Messages.Rental.rentalAddSuccess));
+        AddRentalResponse addRentalResponse = new AddRentalResponse();
+        addRentalResponse.setId(savedRental.getId());
+        addRentalResponse.setResult(result);
+
+        return (addRentalResponse);
 
     }
 

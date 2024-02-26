@@ -7,12 +7,8 @@ import com.tobeto.rentACar.services.dtos.rental.request.AddRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.DeleteRentalRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.FindRentalIdRequest;
 import com.tobeto.rentACar.services.dtos.rental.request.UpdateRentalRequest;
-import com.tobeto.rentACar.services.dtos.rental.response.GetAllRentalsResponse;
-import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByIdResponse;
+import com.tobeto.rentACar.services.dtos.rental.response.*;
 
-import com.tobeto.rentACar.services.dtos.rental.response.GetRentalIdResponse;
-
-import com.tobeto.rentACar.services.dtos.rental.response.GetRentalByUserIdResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.Valid;
@@ -33,7 +29,7 @@ public class RentalsController {
     private final JwtService jwtService;
 
     @PostMapping("/add")
-    public Result add(@RequestBody @Valid AddRentalRequest request){
+    public AddRentalResponse add(@RequestBody @Valid AddRentalRequest request){
         return rentalService.add(request);
     }
 

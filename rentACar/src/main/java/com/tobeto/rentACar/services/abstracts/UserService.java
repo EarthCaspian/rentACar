@@ -1,6 +1,7 @@
 package com.tobeto.rentACar.services.abstracts;
 
 import com.tobeto.rentACar.core.utilities.results.Result;
+import com.tobeto.rentACar.services.dtos.role.RoleDto;
 import com.tobeto.rentACar.services.dtos.user.request.*;
 import com.tobeto.rentACar.services.dtos.user.response.GetAllUsersResponse;
 import com.tobeto.rentACar.services.dtos.user.response.GetUserByIdResponse;
@@ -21,5 +22,5 @@ public interface UserService extends UserDetailsService {
     GetUserByNameResponse getByName(String email);
     GetUserByNameResponse updateProfile(String email, UpdateProfileRequest request);
 
-
+    List<RoleDto> getRolesByUserId(Integer id);
 }

@@ -51,7 +51,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(x -> x
                         .requestMatchers(WHITE_LIST_URLS).permitAll()
 
+
                         //Get Methods
+
                         .requestMatchers(HttpMethod.GET, "/api/cars/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/rentals/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/models/**").permitAll()

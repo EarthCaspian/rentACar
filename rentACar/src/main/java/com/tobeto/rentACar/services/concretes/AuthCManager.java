@@ -74,7 +74,6 @@ public class AuthCManager implements AuthCService {
                 String token = jwtService.generateToken(loginUserRequest.getEmail(), userResponse);
                 LoginResponse loginResponse = new LoginResponse();
                 loginResponse.setToken(token);
-                loginResponse.setUserId(userResponse.getId());
                 return new AuthCResult(true, messageService.getMessage(Messages.User.userLoginSuccess), loginResponse);
             } else {
                 return new ErrorResult(messageService.getMessage(Messages.User.getUserNotFoundMessage));

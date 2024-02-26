@@ -51,26 +51,34 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(x -> x
                         .requestMatchers(WHITE_LIST_URLS).permitAll()
 
+
+                        //Get Methods
+
                         .requestMatchers(HttpMethod.GET, "/api/cars/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/rentals/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/models/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/colors/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/brands/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/invoices/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/customers/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/api/rentals/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/brands/**").permitAll()
+                        //Post Methods
                         .requestMatchers(HttpMethod.POST, "/api/cars/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/rentals/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/models/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/rentals/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/customers/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/invoices/**").permitAll()
 
+                        //Put/Update Methods
                         .requestMatchers(HttpMethod.PUT, "/api/cars/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/brands/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/rentals/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/models/**").permitAll()
 
+                        //Delete Methods
                         .requestMatchers(HttpMethod.DELETE, "/api/cars/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/brands/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/rentals/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/models/**").permitAll()
+
 
                         .anyRequest().authenticated())
                 .httpBasic(AbstractHttpConfigurer::disable)

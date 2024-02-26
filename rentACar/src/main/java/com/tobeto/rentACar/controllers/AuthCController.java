@@ -21,8 +21,8 @@ public class AuthCController {
 
     @PostMapping("register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@RequestBody RegisterUserRequest registerUserRequest) {
-        authCService.register(registerUserRequest);
+    public Result register(@RequestBody RegisterUserRequest registerUserRequest) {
+        return authCService.register(registerUserRequest);
     }
 
     @PostMapping("login")

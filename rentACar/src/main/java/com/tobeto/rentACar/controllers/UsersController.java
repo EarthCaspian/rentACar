@@ -3,6 +3,7 @@ package com.tobeto.rentACar.controllers;
 import com.tobeto.rentACar.core.services.JwtService;
 import com.tobeto.rentACar.core.utilities.results.Result;
 import com.tobeto.rentACar.services.abstracts.UserService;
+import com.tobeto.rentACar.services.dtos.role.RoleDto;
 import com.tobeto.rentACar.services.dtos.user.request.*;
 import com.tobeto.rentACar.services.dtos.user.response.GetAllUsersResponse;
 import com.tobeto.rentACar.services.dtos.user.response.GetUserByIdResponse;
@@ -70,4 +71,8 @@ public class UsersController {
         return userService.updateProfile(username, request);
     }
 
+    @GetMapping("/{userId}/roles")
+    public List<RoleDto> getUserRoles(@PathVariable Integer userId) {
+        return userService.getRolesByUserId(userId);
+    }
 }

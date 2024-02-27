@@ -12,6 +12,7 @@ import com.tobeto.rentACar.repositories.UserRepository;
 import com.tobeto.rentACar.services.abstracts.RoleService;
 import com.tobeto.rentACar.services.abstracts.UserService;
 import com.tobeto.rentACar.services.constants.Messages;
+import com.tobeto.rentACar.services.dtos.role.RoleDto;
 import com.tobeto.rentACar.services.dtos.user.request.*;
 import com.tobeto.rentACar.services.dtos.user.response.GetAllUsersResponse;
 import com.tobeto.rentACar.services.dtos.user.response.GetUserByIdResponse;
@@ -79,6 +80,13 @@ public class UserManager implements UserService {
         userRepository.save(user);
 
         return new GetUserByNameResponse(user.getId(), user.getEmail(), user.getPassword());
+    }
+
+    @Override
+    public List<RoleDto> getRolesByUserId(Integer id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(messageService.getMessage(Messages.User.getUserNotFoundMessage)));
+        Set<Role> roles = user.getAuthorities();
+        return roles.stream().map(role -> this.modelMapperService.forResponse().map(role, RoleDto.class)).toList();
     }
 
     @Override

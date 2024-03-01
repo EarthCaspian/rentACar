@@ -11,6 +11,7 @@ import com.tobeto.rentACar.services.dtos.brand.response.GetBrandByIdResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,17 +39,20 @@ public class BrandsController {
         return brandService.getById(id);
     }
 
+    @PreAuthorize("hasRole('admin')")
     @DeleteMapping("/delete")
     public Result delete(@RequestBody @Valid DeleteBrandRequest request) {
         return brandService.delete(request);
     }
 
+    @PreAuthorize("hasRole('admin')")
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Result add(@RequestBody @Valid AddBrandRequest request) {
        return brandService.add(request);
     }
 
+    @PreAuthorize("hasRole('admin')")
     @PutMapping("/update")
     public Result update(@RequestBody @Valid UpdateBrandRequest request) {
        return brandService.update(request);

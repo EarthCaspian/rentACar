@@ -12,6 +12,7 @@ import com.tobeto.rentACar.services.dtos.model.response.GetModelByIdResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,17 +42,20 @@ public class ModelsController {
         return modelService.getById(id);
     }
 
+    @PreAuthorize("hasRole('admin')")
     @DeleteMapping("/delete")
     public Result delete(@RequestBody @Valid DeleteModelRequest request) {
         return modelService.delete(request);
     }
 
+    @PreAuthorize("hasRole('admin')")
     @PostMapping("/add")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Result add(@RequestBody @Valid AddModelRequest request) {
         return modelService.add(request);
     }
 
+    @PreAuthorize("hasRole('admin')")
     @PutMapping("/update")
     public Result update(@RequestBody @Valid UpdateModelRequest request) {
         return modelService.update(request);
